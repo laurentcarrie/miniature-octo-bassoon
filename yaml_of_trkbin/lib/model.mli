@@ -6,16 +6,16 @@ type chord = string
 type row = chord list
 type section = { name : string; rows : row list }
 
-type sheet = {
+type trk = {
   title : string;
-  authors : string list;
+(*  authors : string list; *)
   (*  path : string; *)
-  sections : section list;
+(*  sections : section list; *)
 }
 
-val deserialize : string -> sheet
-(**
+val deserialize : string -> trk
+(*
     deserialize a string to yaml
 *)
 
-val serialize : sheet -> string
+val serialize : trk -> string

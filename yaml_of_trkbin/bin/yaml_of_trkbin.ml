@@ -6,5 +6,5 @@ let () =
   Log.color_on ();
   let _ = Log.info "begin work" in
   let trk_filename = Array.get Sys.argv 1 in
-  let _ = Log.info trk_filename in
+  let _ = Log.info "%s" trk_filename in
   ()
