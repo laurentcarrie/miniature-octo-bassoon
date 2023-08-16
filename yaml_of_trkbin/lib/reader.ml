@@ -12,9 +12,6 @@ let trk_trkfile trk_filename =
              }
 
 
-
-
-
              in
         ()
 
@@ -27,4 +24,3 @@ let model_of_gpx gpx_filename =
         title="hello"
     } in
     trk
-

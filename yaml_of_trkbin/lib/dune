@@ -1,7 +1,7 @@
 ;(include_subdirs unqualified)
 
 (library
- (name yaml_of_trkbin)
+ (name Yaml_of_trkbin)
  (public_name yaml_of_trkbin)
  (modules model reader)
  (libraries dolog xml-light)
