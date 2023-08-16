@@ -4,8 +4,9 @@ set -e
 #set -x
 
 here=$(dirname $(realpath $0))
+echo $here
 
-trk_file=$here/track_20230806_115655.trk
+trk_file=$here/marly.gpx
 
 ../../bin/yaml_of_trkbin.exe $trk_file
 

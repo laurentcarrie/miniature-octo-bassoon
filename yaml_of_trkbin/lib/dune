@@ -4,7 +4,7 @@
  (name yaml_of_trkbin)
  (public_name yaml_of_trkbin)
  (modules model reader)
- (libraries dolog)
+ (libraries dolog xml-light)
  ; (modules toto)
  (preprocess
   (pps ppx_deriving_yaml)))

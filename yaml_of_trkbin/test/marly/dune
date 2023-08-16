@@ -2,4 +2,4 @@
  (alias runtest)
  (action
   (run ./marly.sh))
- (deps marly.trk))
+ (deps marly.trk marly.gpx))
