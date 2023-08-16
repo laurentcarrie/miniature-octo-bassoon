@@ -1,0 +1,7 @@
+(executable
+ (public_name yaml_of_trkbin)
+ (name yaml_of_trkbin)
+ (libraries yaml_of_trkbin core)
+ ; (preprocess
+ ;  (pps ppx_deriving_yaml))
+ )
