@@ -1,0 +1,36 @@
+\documentclass[border=5mm]{standalone}
+\usepackage{luamplib}
+\usepackage{graphicx}
+\mplibtextextlabel{enable}
+\begin{document}
+
+    \begin{mplibcode}
+
+beginfig(0);
+    picture A,B;
+    A = TEX("\includegraphics[width=300pt]{le-carrosse.pdf}");
+    B = TEX("\includegraphics[width=300pt]{marly.mps}");
+
+    xmin=3 ;
+    xmax=10 ;
+    ymin = 1.1 ;
+    ymax = 10 ;
+
+%    draw A ;
+    numeric dx,dy,ratio ;
+    dx=3;
+    dy=20 ;
+    ratio=1.2 ;
+    draw A ;
+    draw B  scaled ratio shifted (dx,dy);
+
+    path b ;
+    b = bbox B ;
+    %draw b withcolor (1,0,0) ;
+
+
+endfig;
+
+\end{mplibcode}
+
+\end{document}

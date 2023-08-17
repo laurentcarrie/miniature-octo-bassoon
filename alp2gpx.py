@@ -183,7 +183,6 @@ class alp2gpx(object):
         lon = self._get_coordinate()
         lat = self._get_coordinate()
 
-
         alt = 0
         if segmentVersion <= 3:
             alt = self._get_height(lon, lat)

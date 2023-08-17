@@ -1,26 +1,76 @@
 module Log = Dolog.Log
 
-
-
-let _ =
-Log.info "unused"
-
-let trk_trkfile trk_filename =
-    let _ = In_channel.open_bin trk_filename in
-    let _ : Model.trk = {
-            title="hello";
-             }
-
-
-             in
-        ()
-
-
-
 let model_of_gpx gpx_filename =
-    let x = Xml.parse_file gpx_filename in
-    let _ = x in
-    let trk : Model.trk = {
-        title="hello"
-    } in
-    trk
+  let point_of_trkpt xml =
+    let () = match Xml.tag xml with "trkpt" -> () | _ -> failwith "bad tag" in
+    let xml_time =
+      List.hd
+        (Xml.children
+           (List.hd
+              (List.filter (fun c -> Xml.tag c = "time") (Xml.children xml))))
+    in
+    (*    let _ = Log.info "xml_time : '%s'" (Xml.pcdata xml_time) in *)
+    let xml_ele =
+      List.hd
+        (Xml.children
+           (List.hd
+              (List.filter (fun c -> Xml.tag c = "ele") (Xml.children xml))))
+    in
+
+    (* <trkpt lat="48.8837222" lon="1.9895962999999999"><ele>224.81900000000002</ele><time>2023-08-06T09:56:55Z</time></trkpt> *)
+    let point =
+      {
+        Model.lon = Float.of_string (Xml.attrib xml "lon");
+        Model.lat = Float.of_string (Xml.attrib xml "lat");
+        Model.ele = Float.of_string (Xml.pcdata xml_ele);
+        (*    val of_string_with_utc_offset : Base.String.t -> t *)
+        (*  *)
+        (* of_string_with_utc_offset requires its input to have an explicit UTC offset, e.g. 2000-01-01 12:34:56.789012-23, or use the UTC zone, "Z", e.g. 2000-01-01 12:34:56.789012Z. *)
+        Model.time =
+          (let tm : Unix.tm =
+             Scanf.sscanf (Xml.pcdata xml_time) "%04d-%02d-%02dT%02d:%02d:%02dZ"
+               (fun y m d h min s ->
+                 {
+                   Unix.tm_year = y;
+                   tm_mon = m;
+                   tm_mday = d;
+                   tm_hour = h;
+                   tm_min = min;
+                   tm_sec = s;
+                   tm_wday = 0;
+                   tm_yday = 0;
+                   tm_isdst = false;
+                 })
+           in
+           let f, _ = Unix.mktime tm in
+           f);
+      }
+    in
+    point
+  in
+
+  let xml = Xml.parse_file gpx_filename in
+
+  (*  let _ = Log.info ".. %s .." (Xml.to_string xml) in *)
+  let trk =
+    List.hd (List.filter (fun c -> Xml.tag c = "trk") (Xml.children xml))
+  in
+  let _ = Log.info "%s" (Xml.to_string trk) in
+  let trkseg =
+    List.hd (List.filter (fun c -> Xml.tag c = "trkseg") (Xml.children trk))
+  in
+  let _ = Log.info "%s" (Xml.to_string trkseg) in
+  let points = List.map point_of_trkpt (Xml.children trkseg) in
+  let data = { Model.title = "hello"; points } in
+
+  let _ =
+    List.iter
+      (fun point ->
+        let tm = Unix.gmtime point.Model.time in
+        Log.info "%02d:%02d:%02d" tm.tm_hour tm.tm_min tm.tm_sec)
+      data.Model.points
+  in
+
+  let _ = Log.info "%d points" (List.length data.Model.points) in
+
+  data

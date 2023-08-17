@@ -3,8 +3,8 @@
 (library
  (name Yaml_of_trkbin)
  (public_name yaml_of_trkbin)
- (modules model reader)
- (libraries dolog xml-light)
+ (modules model reader gps mp)
+ (libraries dolog xml-light core)
  ; (modules toto)
  (preprocess
   (pps ppx_deriving_yaml)))

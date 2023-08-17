@@ -1,18 +1,7 @@
-type chord = string [@@deriving yaml]
-(**
-blah blah blah
-*)
-
-type row = chord list [@@deriving yaml]
-type section = { name : string; rows : row list } [@@deriving yaml]
-
-type trk = {
-  title : string;
-(*  authors : string list; *)
-  (*  path : string; *)
-(*  sections : section list; *)
-}
+type point = { lat : float; lon : float; ele : float; time : float }
 [@@deriving yaml]
+
+type trk = { title : string; points : point list } [@@deriving yaml]
 
 let deserialize str =
   match Yaml.of_string str with

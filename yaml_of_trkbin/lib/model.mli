@@ -2,15 +2,14 @@
  sheet data model
 *)
 
-type chord = string
-type row = chord list
-type section = { name : string; rows : row list }
+type point = { lat : float; lon : float; ele : float; time : float }
 
 type trk = {
   title : string;
-(*  authors : string list; *)
-  (*  path : string; *)
-(*  sections : section list; *)
+  points : point list;
+      (*  authors : string list; *)
+      (*  path : string; *)
+      (*  sections : section list; *)
 }
 
 val deserialize : string -> trk
