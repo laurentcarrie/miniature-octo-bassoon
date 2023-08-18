@@ -21,11 +21,13 @@ let write_mp_file trk filename width height x0 y0 ratio =
   let () = fprintf fout "height:=%f ;\n" height in
   let data : string =
     {whatever|
-prologues:=3;
+input exteps ;
+prologues:=2;
 outputtemplate := "marly.mps";
 outputformat := "mps";
 input boxes ;
-input TEX ;
+%input TEX ;
+%input exteps ;
 verbatimtex
 \documentclass{article}
 %%\usepackage{lmodern}
@@ -36,6 +38,17 @@ verbatimtex
 etex
 
 beginfig(0);
+
+%begineps "le-carrosse.eps";
+%base := (25,25);
+%clipping := true;
+%grid := true;
+%epsdrawdot(36pct,80pct) withpen pencircle scaled 10pct withcolor blue;
+%epsdrawdot(60.5pct,80pct) withpen pencircle scaled 10pct withcolor blue;
+%epsdraw (35pct,60pct)..(48pct,54pct){right}..(61pct,60pct) withpen pencircle
+%scaled 2pct withcolor red;
+%endeps;
+
     pickup pencircle scaled .05;
 
     numeric m ;
@@ -53,7 +66,13 @@ beginfig(0);
 %        draw p withcolor (0,1,0); 
 %    endfor ; 
 %
+    %picture A ;
+    %A = TEX("\includegraphics[width=300pt]{le-carrosse.pdf}");
+    %draw A ;
 
+
+
+    fill fullcircle scaled .05 withcolor (0,1,0) ;
 
 
     pickup pencircle scaled .01;

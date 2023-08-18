@@ -8,11 +8,6 @@
         <time>2023-08-17T06:37:48Z</time>
     </metadata>
     <trk>
-        <name>depart</name>
-        <number>1</number>
-        <extensions>
-            <color>#00FF00</color>
-        </extensions>
         <trkseg>
             <trkpt lat="48.3560136" lon="2.7612489">
                 <ele>96.224</ele>
@@ -74,16 +69,6 @@
                 <time>2023-08-13T09:24:07Z</time>
                 <hdop>4.92</hdop>
             </trkpt>
-        </trkseg>
-    </trk>
-    <trk>
-        <name>tr2222</name>
-        <number>2</number>
-        <extensions>
-            <color>#FF0000</color>
-        </extensions>
-
-        <trkseg>
             <trkpt lat="48.3568145" lon="2.7606">
                 <ele>83.735</ele>
                 <time>2023-08-13T09:24:14Z</time>
