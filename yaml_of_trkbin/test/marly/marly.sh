@@ -19,7 +19,7 @@ ratio=1.0
 ../../bin/yaml_of_trkbin.exe $trk_file $mp_file $width $height $x0 $y0   $ratio
 
 test -f $mp_file
-mpost --tex=lualatex $mp_file
+#mpost --tex=lualatex $mp_file
 
 lualatex marly.tex
 

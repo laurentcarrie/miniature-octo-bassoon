@@ -15,19 +15,18 @@ let write_mp_file trk filename width height x0 y0 ratio =
   in
 
   let fout = open_out filename in
-  let () = fprintf fout "%% %s\n" filename in
-  let () = fprintf fout "%% %s\n" trk.Model.title in
-  let () = fprintf fout "width:=%f ;\n" width in
-  let () = fprintf fout "height:=%f ;\n" height in
+
+  (*  let () = fprintf fout "%% %s\n" filename in *)
+  (*  let () = fprintf fout "%% %s\n" trk.Model.title in *)
+  (*  let () = fprintf fout "width:=%f ;\n" width in *)
+  (*  let () = fprintf fout "height:=%f ;\n" height in *)
   let data : string =
     {whatever|
-input exteps ;
-prologues:=2;
+prologues:=3;
 outputtemplate := "marly.mps";
 outputformat := "mps";
 input boxes ;
-%input TEX ;
-%input exteps ;
+input TEX ;
 verbatimtex
 \documentclass{article}
 %%\usepackage{lmodern}
@@ -38,17 +37,6 @@ verbatimtex
 etex
 
 beginfig(0);
-
-%begineps "le-carrosse.eps";
-%base := (25,25);
-%clipping := true;
-%grid := true;
-%epsdrawdot(36pct,80pct) withpen pencircle scaled 10pct withcolor blue;
-%epsdrawdot(60.5pct,80pct) withpen pencircle scaled 10pct withcolor blue;
-%epsdraw (35pct,60pct)..(48pct,54pct){right}..(61pct,60pct) withpen pencircle
-%scaled 2pct withcolor red;
-%endeps;
-
     pickup pencircle scaled .05;
 
     numeric m ;
@@ -66,13 +54,7 @@ beginfig(0);
 %        draw p withcolor (0,1,0); 
 %    endfor ; 
 %
-    %picture A ;
-    %A = TEX("\includegraphics[width=300pt]{le-carrosse.pdf}");
-    %draw A ;
 
-
-
-    fill fullcircle scaled .05 withcolor (0,1,0) ;
 
 
     pickup pencircle scaled .01;
@@ -85,24 +67,31 @@ beginfig(0);
 |whatever}
   in
 
-  let () = fprintf fout "%s\n" data in
+  let _ = data in
+  let _ = width in
+  let _ = height in
+  let _ = ratio in
 
+  (*  let () = fprintf fout "%s\n" data in *)
   let pair_of_point (x, y, _) = sprintf "(%f,%f)" x y in
 
   let pairs =
     List.fold_left
-      (fun a b -> a ^ " -- " ^ b)
+      (fun a b -> a ^ " -- " ^ b ^ "\n")
       (pair_of_point (List.hd xyz_points))
       (List.map pair_of_point (List.tl xyz_points))
   in
 
-  let () = fprintf fout "%s ; \n draw trk withcolor (0,1,0) ;\n" pairs in
-
+  let () = fprintf fout "%s" "vardef gpx(expr t)=\n" in
+  let () = fprintf fout "path p ; p := %s ; \n" pairs in
+  let () = fprintf fout "p := p transformed t ;\n" in
+  let () = fprintf fout "p \n" in
+  let () = fprintf fout "enddef;\n" in
   let epilog = {whatever|
 endfig;
 end.
 
 |whatever} in
-  let () = fprintf fout "%s" epilog in
-
+  (*  let () = fprintf fout "%s" epilog in *)
+  let _ = epilog in
   ()
