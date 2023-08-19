@@ -1,8 +1,8 @@
 ;(include_subdirs unqualified)
 
 (library
- (name Yaml_of_trkbin)
- (public_name yaml_of_trkbin)
+ (name gpx_plot)
+ (public_name gpx_plot)
  (modules model reader gps mp)
  (libraries dolog xml-light core)
  ; (modules toto)

@@ -1,0 +1,7 @@
+(executable
+ (public_name gpx_plot)
+ (name gpx_plot)
+ (libraries gpx_plot core)
+ ; (preprocess
+ ;  (pps ppx_deriving_yaml))
+ )

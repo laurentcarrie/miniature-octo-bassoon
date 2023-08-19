@@ -1,12 +1,12 @@
 open Printf
 module Log = Dolog.Log
 
-let write_mp_file_segs trk =
+let write_mp_file_segs gpx =
   let seed =
-    ( (List.hd trk.Model.points).lat,
-      (List.hd trk.Model.points).lon,
-      (List.hd trk.Model.points).lon,
-      (List.hd trk.Model.points).lon )
+    ( (List.hd gpx.Model.points).lat,
+      (List.hd gpx.Model.points).lon,
+      (List.hd gpx.Model.points).lon,
+      (List.hd gpx.Model.points).lon )
   in
   let latmin, latmax, lonmin, lonmax =
     List.fold_left
@@ -15,7 +15,7 @@ let write_mp_file_segs trk =
           max latmax p.Model.lat,
           min lonmin p.Model.lon,
           max lonmax p.Model.lon ))
-      seed (List.tl trk.Model.points)
+      seed (List.tl gpx.Model.points)
   in
 
   let _ = (latmin, latmax, lonmin, lonmax) in
@@ -32,7 +32,7 @@ let write_mp_file_segs trk =
   in
 
   let xyz_points : (float * float * float) list =
-    List.map (fun point -> Gps.xyz_of_point origin point) trk.Model.points
+    List.map (fun point -> Gps.xyz_of_point origin point) gpx.Model.points
   in
 
   let fout = open_out "segments.mp" in
@@ -53,11 +53,11 @@ let write_mp_file_segs trk =
   let () = fprintf fout "enddef;\n" in
   ()
 
-let write_mp_wpts trk =
-  let origin = List.hd trk.Model.points in
+let write_mp_wpts gpx =
+  let origin = List.hd gpx.Model.points in
   let fout = open_out "waypoints.mp" in
   let xyz_points : (float * float * float) list =
-    List.map (fun point -> Gps.xyz_of_point origin point) trk.Model.wpts
+    List.map (fun point -> Gps.xyz_of_point origin point) gpx.Model.wpts
   in
   let () = fprintf fout "%s" "vardef get_wpts(suffix wpts)(expr t)=\n" in
   let (_ : int) =

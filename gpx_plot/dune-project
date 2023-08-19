@@ -1,6 +1,6 @@
 (lang dune 3.9)
 
-(name yaml_of_trkbin)
+(name gpx_plot)
 
 (generate_opam_files true)
 
@@ -16,7 +16,7 @@
 (documentation https://url/to/documentation)
 
 (package
- (name yaml_of_trkbin)
+ (name gpx_plot)
  (synopsis "A short synopsis")
  (description "A longer description")
  (depends ocaml dune)

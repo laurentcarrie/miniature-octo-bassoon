@@ -8,7 +8,7 @@ echo $here
 
 trk_file=$here/le-carrosse.gpx
 
-../../bin/yaml_of_trkbin.exe $trk_file
+../../bin/gpx_plot.exe $trk_file
 
 test -f $here/segments.mp
 test -f $here/waypoints.mp

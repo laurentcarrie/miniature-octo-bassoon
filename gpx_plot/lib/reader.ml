@@ -1,7 +1,7 @@
 module Log = Dolog.Log
 
 let model_of_gpx gpx_filename =
-  let point_of_trkpt xml =
+  let point_of_gpxpt xml =
     let () =
       match Xml.tag xml with "trkpt" | "wpt" -> () | _ -> failwith "bad tag"
     in
@@ -54,15 +54,15 @@ let model_of_gpx gpx_filename =
   let xml = Xml.parse_file gpx_filename in
 
   (*  let _ = Log.info ".. %s .." (Xml.to_string xml) in *)
-  let trk =
+  let gpx =
     List.hd (List.filter (fun c -> Xml.tag c = "trk") (Xml.children xml))
   in
-  let trkseg =
-    List.hd (List.filter (fun c -> Xml.tag c = "trkseg") (Xml.children trk))
+  let gpxseg =
+    List.hd (List.filter (fun c -> Xml.tag c = "trkseg") (Xml.children gpx))
   in
   let xml_wps = List.filter (fun c -> Xml.tag c = "wpt") (Xml.children xml) in
-  let points = List.map point_of_trkpt (Xml.children trkseg) in
-  let wpts = List.map point_of_trkpt xml_wps in
+  let points = List.map point_of_gpxpt (Xml.children gpxseg) in
+  let wpts = List.map point_of_gpxpt xml_wps in
   let data = { Model.title = "hello"; points; wpts } in
 
   (*  let _ = *)
