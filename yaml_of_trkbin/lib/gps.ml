@@ -35,9 +35,6 @@ let xyz_of_point origin point =
   let dlat = lat -. origin_lat in
 
   let dx = r *. dlon in
-  let _ = Log.info "dx %f" dx in
   let dy = equatorial_radius *. dlat *. 0.95 in
   let z = point.Model.ele in
-
-  let _ = Log.info "xy %f ; %f" dx dy in
   (dx, dy, z)

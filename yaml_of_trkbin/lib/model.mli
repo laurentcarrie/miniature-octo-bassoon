@@ -3,14 +3,7 @@
 *)
 
 type point = { lat : float; lon : float; ele : float; time : float }
-
-type trk = {
-  title : string;
-  points : point list;
-      (*  authors : string list; *)
-      (*  path : string; *)
-      (*  sections : section list; *)
-}
+type trk = { title : string; points : point list; wpts : point list }
 
 val deserialize : string -> trk
 (*

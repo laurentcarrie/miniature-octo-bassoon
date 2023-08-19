@@ -2,14 +2,4 @@
  (alias runtest)
  (action
   (run ./marly.sh))
- (deps
-  marly.trk
-  marly.gpx
-  marly.tex
-  marly_x48.gpx
-  triangle.gpx
-  marly.png
-  marly2.gpx
-  le-carrosse.pdf
-  le-carrosse-kml.png
-  le-carrosse.gpx))
+ (deps marly.tex le-carrosse.pdf le-carrosse.gpx))

@@ -6,7 +6,8 @@
 
     \begin{mplibcode}
 
-        input marly.mp ;
+        input segments.mp ;
+        input waypoints.mp ;
 
         beginfig(0);
         picture A,B;
@@ -18,12 +19,12 @@
         ymin = 1.1 ;
         ymax = 10 ;
 
-        draw A ;
+        %draw A ;
         numeric dx,dy,ratio ;
         dx=0;
         dy=0 ;
         ratio=1 ;
-        %draw A ;
+        draw A ;
 %    draw B  scaled ratio shifted (dx,dy);
 
         fill fullcircle scaled 10 withcolor (1,0,0) ;
@@ -36,44 +37,63 @@
         dy=5.3cm ;
         theta=-5 ;
         t := identity scaled scale rotated theta shifted (dx,dy);
-        p := gpx(t) ;
+        p := get_route(t) ;
 
         pair pp[] ;
-        pp0 = point 0 of p ;
-        fill fullcircle scaled 5 shifted pp0 withcolor (1,0,0);
+        pp0 = point 166 of p ;
+        color pcolor ;
+        pcolor = (0,1,0) ;
+        draw fullcircle scaled 5 shifted pp0 withcolor pcolor ;
 
         pp1 = point 231 of p ;
-        fill fullcircle scaled 5 shifted pp1 withcolor (1,0,0);
+        draw fullcircle scaled 5 shifted pp1 withcolor pcolor ;
 
         pp2 = point 865 of p ;
-        fill fullcircle scaled 5 shifted pp2 withcolor (1,0,0);
+        draw fullcircle scaled 5 shifted pp2 withcolor pcolor ;
+
+        pp3 = point 1106 of p ;
+        draw fullcircle scaled 5 shifted pp3 withcolor pcolor ;
+
 
 
         pair qq[] ;
-        qq0 = (280,160) ;
-        fill fullcircle scaled 5 shifted qq0 withcolor (0,0,1);
+        color qcolor ;
+        qq0 = (135,229) ;
+        qcolor=(1,0,0) ;
+        draw fullcircle scaled 5 shifted qq0 withcolor qcolor ;
 
         qq1 = (54,216) ;
-        fill fullcircle scaled 5 shifted qq1 withcolor (0,0,1);
+        draw fullcircle scaled 5 shifted qq1 withcolor qcolor ;
 
         qq2 = (98,45) ;
-        fill fullcircle scaled 5 shifted qq2 withcolor (0,0,1);
+        draw fullcircle scaled 5 shifted qq2 withcolor qcolor ;
+
+        qq3 = (246,165) ;
+        draw fullcircle scaled 5 shifted qq3 withcolor qcolor ;
+
 
         pickup pencircle scaled 1;
-        draw p withcolor (0,1,0) ;
+%        draw p withcolor pcolor ;
 
         transform tt ;
         qq0 = pp0 transformed tt ;
-        qq1 = pp1 transformed tt ;
+ %       qq1 = pp1 transformed tt ;
         qq2 = pp2 transformed tt ;
+        qq3 = pp3 transformed tt ;
 
         path pp ;
         pp = p transformed tt ;
         draw pp withcolor (1,0,0) ;
 
-        path b ;
-%    b = bbox B ;
-%    draw b withcolor (1,0,0) ;
+        pair wpts[] ;
+        get_wpts(wpts)(tt) ;
+        show "this is wpts" ;
+        show wpts ;
+
+        for p=1 upto  3 :
+            show i ;
+%%            draw fullcircle shifted wpt scaled 10 withcolor (1,0,0) ;
+        endfor ;
 
 
         endfig;

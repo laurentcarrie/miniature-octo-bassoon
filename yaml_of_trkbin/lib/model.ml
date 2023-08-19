@@ -1,7 +1,8 @@
 type point = { lat : float; lon : float; ele : float; time : float }
 [@@deriving yaml]
 
-type trk = { title : string; points : point list } [@@deriving yaml]
+type trk = { title : string; points : point list; wpts : point list }
+[@@deriving yaml]
 
 let deserialize str =
   match Yaml.of_string str with

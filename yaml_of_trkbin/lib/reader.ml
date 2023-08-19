@@ -2,14 +2,15 @@ module Log = Dolog.Log
 
 let model_of_gpx gpx_filename =
   let point_of_trkpt xml =
-    let () = match Xml.tag xml with "trkpt" -> () | _ -> failwith "bad tag" in
+    let () =
+      match Xml.tag xml with "trkpt" | "wpt" -> () | _ -> failwith "bad tag"
+    in
     let xml_time =
       List.hd
         (Xml.children
            (List.hd
               (List.filter (fun c -> Xml.tag c = "time") (Xml.children xml))))
     in
-    (*    let _ = Log.info "xml_time : '%s'" (Xml.pcdata xml_time) in *)
     let xml_ele =
       List.hd
         (Xml.children
@@ -55,22 +56,21 @@ let model_of_gpx gpx_filename =
   let trk =
     List.hd (List.filter (fun c -> Xml.tag c = "trk") (Xml.children xml))
   in
-  let _ = Log.info "%s" (Xml.to_string trk) in
   let trkseg =
     List.hd (List.filter (fun c -> Xml.tag c = "trkseg") (Xml.children trk))
   in
-  let _ = Log.info "%s" (Xml.to_string trkseg) in
+  let xml_wps = List.filter (fun c -> Xml.tag c = "wpt") (Xml.children xml) in
   let points = List.map point_of_trkpt (Xml.children trkseg) in
-  let data = { Model.title = "hello"; points } in
+  let wpts = List.map point_of_trkpt xml_wps in
+  let data = { Model.title = "hello"; points; wpts } in
 
-  let _ =
-    List.iter
-      (fun point ->
-        let tm = Unix.gmtime point.Model.time in
-        Log.info "%02d:%02d:%02d" tm.tm_hour tm.tm_min tm.tm_sec)
-      data.Model.points
-  in
-
+  (*  let _ = *)
+  (*    List.iter *)
+  (*      (fun point -> *)
+  (*        let tm = Unix.gmtime point.Model.time in *)
+  (*        Log.info "%02d:%02d:%02d" tm.tm_hour tm.tm_min tm.tm_sec) *)
+  (*      data.Model.points *)
+  (*  in *)
   let _ = Log.info "%d points" (List.length data.Model.points) in
 
   data
