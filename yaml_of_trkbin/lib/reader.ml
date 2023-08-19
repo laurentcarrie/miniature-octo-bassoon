@@ -19,6 +19,7 @@ let model_of_gpx gpx_filename =
     in
 
     (* <trkpt lat="48.8837222" lon="1.9895962999999999"><ele>224.81900000000002</ele><time>2023-08-06T09:56:55Z</time></trkpt> *)
+    (*            <time>2023-08-17T11:16:01.000Z</time> *)
     let point =
       {
         Model.lon = Float.of_string (Xml.attrib xml "lon");
@@ -29,8 +30,8 @@ let model_of_gpx gpx_filename =
         (* of_string_with_utc_offset requires its input to have an explicit UTC offset, e.g. 2000-01-01 12:34:56.789012-23, or use the UTC zone, "Z", e.g. 2000-01-01 12:34:56.789012Z. *)
         Model.time =
           (let tm : Unix.tm =
-             Scanf.sscanf (Xml.pcdata xml_time) "%04d-%02d-%02dT%02d:%02d:%02dZ"
-               (fun y m d h min s ->
+             Scanf.sscanf (Xml.pcdata xml_time)
+               "%04d-%02d-%02dT%02d:%02d:%02d%s" (fun y m d h min s _ ->
                  {
                    Unix.tm_year = y;
                    tm_mon = m;

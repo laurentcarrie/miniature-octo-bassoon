@@ -1,5 +1,0 @@
-(rule
- (alias runtest)
- (action
-  (run ./marly.sh))
- (deps marly.tex le-carrosse.pdf le-carrosse.gpx))

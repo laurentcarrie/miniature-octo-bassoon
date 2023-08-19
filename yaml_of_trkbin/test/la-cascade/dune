@@ -1,0 +1,5 @@
+(rule
+ (alias runtest)
+ (action
+  (run ./run.sh))
+ (deps la-cascade.tex la-cascade.gpx la-cascade-from-googlemaps.png))

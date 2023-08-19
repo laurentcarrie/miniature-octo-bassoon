@@ -2,7 +2,34 @@ open Printf
 module Log = Dolog.Log
 
 let write_mp_file_segs trk =
-  let origin = List.hd trk.Model.points in
+  let seed =
+    ( (List.hd trk.Model.points).lat,
+      (List.hd trk.Model.points).lon,
+      (List.hd trk.Model.points).lon,
+      (List.hd trk.Model.points).lon )
+  in
+  let latmin, latmax, lonmin, lonmax =
+    List.fold_left
+      (fun (latmin, latmax, lonmin, lonmax) p ->
+        ( min latmin p.Model.lat,
+          max latmax p.Model.lat,
+          min lonmin p.Model.lon,
+          max lonmax p.Model.lon ))
+      seed (List.tl trk.Model.points)
+  in
+
+  let _ = (latmin, latmax, lonmin, lonmax) in
+
+  let origin =
+    {
+      (*      Model.lat = (latmin +. latmax) /. 2.0; *)
+      (*      lon = (lonmin +. lonmax) /. 2.0; *)
+      Model.lat = latmin;
+      lon = lonmin;
+      ele = 0.0;
+      time = 0.0;
+    }
+  in
 
   let xyz_points : (float * float * float) list =
     List.map (fun point -> Gps.xyz_of_point origin point) trk.Model.points

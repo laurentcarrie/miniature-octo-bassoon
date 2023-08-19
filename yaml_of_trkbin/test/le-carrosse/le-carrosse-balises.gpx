@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" version="1.1" creator="AlpineQuest 2.3.5b" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+<metadata>
+<link href="https://www.alpinequest.net/fr" />
+<time>2023-08-17T06:53:06Z</time>
+</metadata>
+<wpt lat="48.3565821" lon="2.7447001">
+<ele>96.375</ele>
+<time>2023-08-13T10:16:31Z</time>
+<name>B3</name>
+<hdop>4.46</hdop>
+</wpt>
+<wpt lat="48.3561111" lon="2.743184">
+<ele>125.238</ele>
+<time>2023-08-13T10:26:17Z</time>
+<name>B4</name>
+<hdop>3.72</hdop>
+</wpt>
+<wpt lat="48.3547936" lon="2.7457331">
+<ele>126.359</ele>
+<time>2023-08-13T10:36:17Z</time>
+<name>B6</name>
+<hdop>4.15</hdop>
+</wpt>
+<wpt lat="48.3530785" lon="2.7427301">
+<ele>122.773</ele>
+<time>2023-08-13T10:48:56Z</time>
+<name>B7</name>
+<hdop>3.39</hdop>
+</wpt>
+<wpt lat="48.3514016" lon="2.7452889">
+<ele>129.679</ele>
+<time>2023-08-13T11:14:21Z</time>
+<name>B8</name>
+<hdop>4.42</hdop>
+</wpt>
+<wpt lat="48.3534135" lon="2.7477322">
+<ele>120.909</ele>
+<time>2023-08-13T11:36:31Z</time>
+<name>B9</name>
+<hdop>5.33</hdop>
+</wpt>
+<wpt lat="48.352316" lon="2.751584">
+<ele>122.718</ele>
+<time>2023-08-13T11:57:02Z</time>
+<name>B10</name>
+<hdop>4.56</hdop>
+</wpt>
+<wpt lat="48.3542291" lon="2.7526416">
+<ele>116.677</ele>
+<time>2023-08-13T12:22:04Z</time>
+<name>B11</name>
+<hdop>4.73</hdop>
+</wpt>
+<wpt lat="48.3554604" lon="2.7480237">
+<ele>134.522</ele>
+<time>2023-08-13T13:01:20Z</time>
+<name>B12</name>
+<hdop>5.03</hdop>
+</wpt>
+<wpt lat="48.3526694" lon="2.7451875">
+<ele>129.753</ele>
+<time>2023-08-13T13:12:48Z</time>
+<name>B13</name>
+<hdop>5.05</hdop>
+</wpt>
+<wpt lat="48.3506655" lon="2.7535431">
+<ele>125.529</ele>
+<time>2023-08-13T13:39:16Z</time>
+<name>B14</name>
+<hdop>5.29</hdop>
+</wpt>
+<wpt lat="48.3506703" lon="2.7568634">
+<ele>133.072</ele>
+<time>2023-08-13T13:50:28Z</time>
+<name>B15</name>
+<hdop>4.46</hdop>
+</wpt>
+<wpt lat="48.3520381" lon="2.7566206">
+<ele>123.474</ele>
+<time>2023-08-13T13:58:42Z</time>
+<name>B16</name>
+<hdop>5.37</hdop>
+</wpt>
+<wpt lat="48.3538027" lon="2.7590845">
+<ele>109.912</ele>
+<time>2023-08-13T14:13:18Z</time>
+<name>B17</name>
+<hdop>5.35</hdop>
+</wpt>
+<wpt lat="48.3562558" lon="2.7588501">
+<ele>84.623</ele>
+<time>2023-08-13T14:50:56Z</time>
+<name>X</name>
+<hdop>5.61</hdop>
+</wpt>
+</gpx>

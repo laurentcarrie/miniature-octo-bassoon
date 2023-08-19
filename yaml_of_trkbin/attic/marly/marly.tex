@@ -55,7 +55,6 @@
         draw fullcircle scaled 5 shifted pp3 withcolor pcolor ;
 
 
-
         pair qq[] ;
         color qcolor ;
         qq0 = (135,229) ;
@@ -75,24 +74,47 @@
         pickup pencircle scaled 1;
 %        draw p withcolor pcolor ;
 
-        transform tt ;
-        qq0 = pp0 transformed tt ;
- %       qq1 = pp1 transformed tt ;
-        qq2 = pp2 transformed tt ;
-        qq3 = pp3 transformed tt ;
+        transform tt[] ;
+        qq0 = pp0 transformed tt0 ;
+        %       qq1 = pp1 transformed tt ;
+        qq2 = pp2 transformed tt0 ;
+        qq3 = pp3 transformed tt0 ;
+
+        %qq0 = pp0 transformed tt0 ;
+        qq1 = pp1 transformed tt1 ;
+        qq2 = pp2 transformed tt1 ;
+        qq3 = pp3 transformed tt1 ;
+
+
+
+        transform chosen_tt ;
+        chosen_tt=tt0 ;
 
         path pp ;
-        pp = p transformed tt ;
-        draw pp withcolor (1,0,0) ;
+        %pp = p transformed chosen_tt ;
+
+%        draw pp withcolor (1,0,0) ;
+
+        draw p transformed tt0 withcolor (0,0,1) ;
+        draw p transformed tt1 withcolor (0,0,1) ;
+
+%        pp = .5[p transformed tt0 ,p  transformed tt1 ] ;
+%        draw pp withcolor (1,0,0) ;
+
 
         pair wpts[] ;
-        get_wpts(wpts)(tt) ;
+        get_wpts(wpts)(t) ;
         show "this is wpts" ;
         show wpts ;
-
-        for p=1 upto  3 :
-            show i ;
-%%            draw fullcircle shifted wpt scaled 10 withcolor (1,0,0) ;
+        numeric i;
+        i=0 ;
+        forever:
+                exitif unknown wpts[i] ;
+                show wpts[i] ;
+                pair pwpt ;
+%                pwpt = wpts[i] transformed chosen_tt ;
+%                draw fullcircle scaled 10 shifted pwpt withcolor (1,0,0) ;
+                i:=i+1 ;
         endfor ;
 
 
