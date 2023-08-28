@@ -35,7 +35,7 @@ let write_mp_file_segs gpx =
     List.map (fun point -> Gps.xyz_of_point origin point) gpx.Model.points
   in
 
-  let fout = open_out "segments.mp" in
+  let fout = open_out "gpx.mp" in
 
   let pair_of_point (x, y, _) = sprintf "(%f,%f)" x y in
 
@@ -46,11 +46,11 @@ let write_mp_file_segs gpx =
       (List.map pair_of_point (List.tl xyz_points))
   in
 
-  let () = fprintf fout "%s" "vardef get_route(expr t)=\n" in
-  let () = fprintf fout "path p ; p := %s ; \n" pairs in
-  let () = fprintf fout "p := p transformed t ;\n" in
-  let () = fprintf fout "p \n" in
-  let () = fprintf fout "enddef;\n" in
+  (*  let () = fprintf fout "%s" "vardef get_gpx(expr t)=\n" in *)
+  let () = fprintf fout "path original_gpx ;\noriginal_gpx :=\n%s ; \n" pairs in
+  (*  let () = fprintf fout "p := p transformed t ;\n" in *)
+  (*  let () = fprintf fout "p \n" in *)
+  (*  let () = fprintf fout "enddef;\n" in *)
   ()
 
 let write_mp_wpts gpx =
@@ -70,4 +70,61 @@ let write_mp_wpts gpx =
       0 xyz_points
   in
   let () = fprintf fout "enddef;\n" in
+  ()
+
+let write_mp_infos project =
+  let fout = open_out "infos.mp" in
+  let () =
+    fprintf fout
+      "picture background_image ; \n\
+       background_image = TEX(\"\\includegraphics[width=300pt]{%s}\");\n"
+      project.Model.google_png_file
+  in
+
+  (* points of the original gpx file we want to use to reconcile the tracks *)
+  let () = fprintf fout "%s\n" "\npair original_gpx_common[] ;\n" in
+
+  let _ =
+    List.fold_left
+      (fun counter cp ->
+        let () =
+          fprintf fout "original_gpx_common%d = point %d of original_gpx ; \n"
+            counter cp.Model.gpx_index
+        in
+        counter + 1)
+      0 project.Model.common_points
+  in
+
+  let () = fprintf fout "%s\n" "\npair original_google_common[] ;\n" in
+  let _ =
+    List.fold_left
+      (fun counter cp ->
+        let () =
+          fprintf fout "original_google_common%d = (%f,%f) ; \n" counter
+            cp.Model.google.x cp.Model.google.y
+        in
+        counter + 1)
+      0 project.Model.common_points
+  in
+
+  (*          pair pp[] ; *)
+  (*        color pcolor ; *)
+  (*        pcolor = (0,1,0) ; *)
+  (*        draw p withcolor pcolor ; *)
+  (*  *)
+  (*        pp0 = point 166 of p ; *)
+  (*        draw fullcircle scaled 5 shifted pp0 withcolor pcolor ; *)
+  (*        dotlabel.ulft("0",pp0) withcolor pcolor ; *)
+  (*  *)
+  (*        pp1 = point 231 of p ; *)
+  (*        draw fullcircle scaled 5 shifted pp1 withcolor pcolor ; *)
+  (*        dotlabel.ulft("1",pp1) withcolor pcolor ; *)
+  (*  *)
+  (*        pp2 = point 900 of p ; *)
+  (*        draw fullcircle scaled 5 shifted pp2 withcolor pcolor ; *)
+  (*        dotlabel.ulft("2",pp2) withcolor pcolor ; *)
+  (*  *)
+  (*        pp3 = point 1106 of p ; *)
+  (*        draw fullcircle scaled 5 shifted pp3 withcolor pcolor ; *)
+  (*        dotlabel.ulft("3",pp3) withcolor pcolor ; *)
   ()

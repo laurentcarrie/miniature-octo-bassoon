@@ -3,7 +3,7 @@
  (action
   (run ./run.sh))
  (deps
-  le-carrosse.tex
   le-carrosse-co.pdf
   le-carrosse.gpx
-  le-carrosse-from-google-maps.png))
+  le-carrosse-from-google-maps.png
+  conf.yml))

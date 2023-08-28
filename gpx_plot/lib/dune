@@ -3,7 +3,7 @@
 (library
  (name gpx_plot)
  (public_name gpx_plot)
- (modules model reader gps mp)
+ (modules model reader gps mp work main_tex)
  (libraries dolog xml-light core)
  ; (modules toto)
  (preprocess
