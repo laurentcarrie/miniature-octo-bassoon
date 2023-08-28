@@ -1,7 +1,10 @@
-pdf: "le-carrosse.pdf"
-gpx_file: "le-carrosse.gpx"
-google_png_file: "le-carrosse-from-google-maps.png"
-co_png_file: "le-carrosse-co.pdf"
+#pdf: "le-carrosse.pdf"
+#gpx_file: "le-carrosse.gpx"
+#google_png_file: "le-carrosse-from-google-maps.png"
+#co_png_file: "le-carrosse-co.pdf"
+see_gpx: true
+see_google: true
+see_co: true
 common_points:
   - gpx_index: 200
     google:

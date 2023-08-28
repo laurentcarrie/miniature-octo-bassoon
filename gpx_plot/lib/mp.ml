@@ -1,7 +1,7 @@
 open Printf
 module Log = Dolog.Log
 
-let write_mp_file_segs gpx =
+let write_mp_file_segs ~workdir ~gpx =
   let seed =
     ( (List.hd gpx.Model.points).lat,
       (List.hd gpx.Model.points).lon,
@@ -35,7 +35,7 @@ let write_mp_file_segs gpx =
     List.map (fun point -> Gps.xyz_of_point origin point) gpx.Model.points
   in
 
-  let fout = open_out "gpx.mp" in
+  let fout = open_out (sprintf "%s/gpx.mp" workdir) in
 
   let pair_of_point (x, y, _) = sprintf "(%f,%f)" x y in
 
@@ -51,11 +51,12 @@ let write_mp_file_segs gpx =
   (*  let () = fprintf fout "p := p transformed t ;\n" in *)
   (*  let () = fprintf fout "p \n" in *)
   (*  let () = fprintf fout "enddef;\n" in *)
+  let () = close_out fout in
   ()
 
-let write_mp_wpts gpx =
+let write_mp_wpts ~workdir ~gpx =
   let origin = List.hd gpx.Model.points in
-  let fout = open_out "waypoints.mp" in
+  let fout = open_out (sprintf "%s/waypoints.mp" workdir) in
   let xyz_points : (float * float * float) list =
     List.map (fun point -> Gps.xyz_of_point origin point) gpx.Model.wpts
   in
@@ -70,15 +71,16 @@ let write_mp_wpts gpx =
       0 xyz_points
   in
   let () = fprintf fout "enddef;\n" in
+  let () = close_out fout in
   ()
 
-let write_mp_infos project =
-  let fout = open_out "infos.mp" in
+let write_mp_infos ~workdir ~project =
+  let fout = open_out (sprintf "%s/infos.mp" workdir) in
   let () =
     fprintf fout
       "picture background_image ; \n\
        background_image = TEX(\"\\includegraphics[width=300pt]{%s}\");\n"
-      project.Model.google_png_file
+      Model.google_png_file
   in
 
   (* points of the original gpx file we want to use to reconcile the tracks *)
@@ -127,4 +129,5 @@ let write_mp_infos project =
   (*        pp3 = point 1106 of p ; *)
   (*        draw fullcircle scaled 5 shifted pp3 withcolor pcolor ; *)
   (*        dotlabel.ulft("3",pp3) withcolor pcolor ; *)
+  let () = close_out fout in
   ()

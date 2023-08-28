@@ -4,17 +4,19 @@ set -e
 set -x
 
 here=$(dirname $(realpath $0))
+bindir=$(dirname $(dirname $here))/bin
 echo $here
 
-trk_file=$here/le-carrosse.gpx
+test -d $bindir
 
-../../bin/gpx_plot.exe conf.yml
+rm -f main.pdf
+
+$bindir/cli/gpx_plot_cli.exe $here
 
 for f in gpx.mp waypoints.mp main.tex ; do
   test -f $here/$f || (echo $f is missing && false)
 done
-rm -f main.pdf
-lualatex main.tex
+#lualatex main.tex
 test -f main.pdf
 
 echo DONE

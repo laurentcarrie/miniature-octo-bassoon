@@ -1,3 +1,7 @@
+let gpx_file = "input.gpx"
+let google_png_file = "google.png"
+let co_png_file = "co.pdf"
+
 type xy_point = { x : float; y : float } [@@deriving yaml]
 
 type common_point = {
@@ -11,10 +15,10 @@ type common_point = {
 [@@deriving yaml]
 
 type project = {
-  pdf : string;
-  gpx_file : string;
-  google_png_file : string;
-  co_png_file : string;
+(*  pdf : string; *)
+see_gpx: bool ;
+see_google:bool ;
+see_co:bool ;
   common_points : common_point list;
 }
 [@@deriving yaml]
@@ -30,8 +34,8 @@ let deserialize str =
   | Ok yaml_value -> (
       match project_of_yaml yaml_value with
       | Ok t -> t
-      | Error (`Msg e) -> failwith ("Error - convert to project: " ^ e))
-  | Error (`Msg e) -> failwith ("Error - parsing: " ^ e)
+      | Error (`Msg e) -> failwith ("Yaml Error - convert to project: " ^ e))
+  | Error (`Msg e) -> failwith ("Yaml Error - parsing: " ^ e)
 
 let serialize v =
   let yaml_structure = project_to_yaml v in

@@ -1,4 +1,5 @@
 open Printf
+module Log = Dolog.Log
 
 let string_0 =
   {whatever|
@@ -88,7 +89,7 @@ let string_0 =
             pair p ;
             p = original_gpx_common[i] transformed t_gpx ;
             draw fullcircle scaled 10 shifted p withcolor gpx_color ;
-            dotlabel.ulft(decimal(i),p) withcolor gpx_color ;
+            dotlabel.ulft(decimal(i+1),p) withcolor gpx_color ;
             i:=i+1 ;
         endfor ;
 
@@ -100,7 +101,7 @@ let string_0 =
             pair p ;
             p = original_google_common[i] ;
             draw fullcircle scaled 10 shifted p withcolor google_color ;
-            dotlabel.ulft(decimal(i),p) withcolor google_color ;
+            dotlabel.ulft(decimal(i+1),p) withcolor google_color ;
             i:=i+1 ;
         endfor ;
 
@@ -191,9 +192,12 @@ let string_0 =
 \end{document}
 |whatever}
 
-let write_tex_file project =
+let write_tex_file ~workdir ~project =
   let _ = project in
-  let fout = open_out "main.tex" in
+  let filename = sprintf "%s/main.tex" workdir in
+  let _ = Log.info "write_tex_file %s" filename in
+  let fout = open_out filename in
   let () = fprintf fout "%s\n" string_0 in
   let () = close_out fout in
+  let _ = Log.info "write_tex_file done" in
   ()

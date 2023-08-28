@@ -1,6 +1,8 @@
 module Log = Dolog.Log
 
-let model_of_gpx gpx_filename =
+let model_of_gpx ~workdir =
+  let gpx_filename = Printf.sprintf "%s/input.gpx" workdir in
+  let () = Log.info "gpx_filename : %s" gpx_filename in
   let point_of_gpxpt xml =
     let () =
       match Xml.tag xml with "trkpt" | "wpt" -> () | _ -> failwith "bad tag"
@@ -72,6 +74,8 @@ let model_of_gpx gpx_filename =
   (*        Log.info "%02d:%02d:%02d" tm.tm_hour tm.tm_min tm.tm_sec) *)
   (*      data.Model.points *)
   (*  in *)
-  let _ = Log.info "%d points" (List.length data.Model.points) in
+  let _ =
+    Log.info "%s:%d %d points" __FILE__ __LINE__ (List.length data.Model.points)
+  in
 
   data
