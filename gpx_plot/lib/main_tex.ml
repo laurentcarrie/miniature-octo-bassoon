@@ -62,8 +62,6 @@ let string_0 =
         gpx = original_gpx scaled gpx_ratio ;
         path bounding_box_gpx ;
 
-
-
         pair center_bounding_box_gpx ;
         bounding_box_gpx := bbox gpx ;
         draw bounding_box_gpx ;
@@ -89,15 +87,17 @@ let string_0 =
         % gpx_common
         numeric i ;
         i:=0 ;
-        forever :
-            exitif unknown original_gpx_common[i] ;
-            show original_gpx_common[i] ;
-            pair p ;
-            p = original_gpx_common[i] transformed t_gpx ;
-            draw fullcircle scaled 10 shifted p withcolor gpx_color ;
-            dotlabel.ulft(decimal(i+1),p) withcolor gpx_color ;
-            i:=i+1 ;
-        endfor ;
+        if see_gpx:
+            forever :
+                exitif unknown original_gpx_common[i] ;
+                show original_gpx_common[i] ;
+                pair p ;
+                p = original_gpx_common[i] transformed t_gpx ;
+                draw fullcircle scaled 10 shifted p withcolor gpx_color ;
+                dotlabel.ulft(decimal(i+1),p) withcolor gpx_color ;
+                i:=i+1 ;
+            endfor ;
+        fi;
 
         % google_common
         numeric i ;
@@ -110,6 +110,20 @@ let string_0 =
             dotlabel.ulft(decimal(i+1),p) withcolor google_color ;
             i:=i+1 ;
         endfor ;
+
+
+        if see_co :
+            draw co_image ;
+        fi ;
+
+
+        transform tt ;
+        original_gpx_common0 transformed t_gpx transformed tt= original_google_common0 ;
+        original_gpx_common1 transformed t_gpx transformed tt= original_google_common1 ;
+        original_gpx_common2 transformed t_gpx transformed tt= original_google_common2 ;
+
+        draw gpx transformed tt withcolor blue ;
+
 
 
 %        path p ;

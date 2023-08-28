@@ -78,14 +78,16 @@ let write_mp_infos ~workdir ~project =
   let fout = open_out (sprintf "%s/infos.mp" workdir) in
   let () =
     fprintf fout
-      "picture google_image ; \n\
+      "picture google_image,co_image ; \n\
        google_image = TEX(\"\\includegraphics[width=300pt]{%s}\");\n\
+       co_image = TEX(\"\\includegraphics[width=300pt]{%s}\");\n\
        boolean see_google, see_gpx, see_co;\n\
        see_gpx=%b ; \n\
        see_google=%b ; \n\
        see_co=%b ; \n\
        "
       Model.google_png_file
+      Model.co_png_file
       project.Model.see_gpx
       project.Model.see_google
       project.Model.see_co

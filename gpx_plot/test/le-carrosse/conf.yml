@@ -1,16 +1,25 @@
-#pdf: "le-carrosse.pdf"
-#gpx_file: "le-carrosse.gpx"
-#google_png_file: "le-carrosse-from-google-maps.png"
-#co_png_file: "le-carrosse-co.pdf"
 see_gpx: true
 see_google: true
-see_co: true
+see_co: false
 common_points:
-  - gpx_index: 200
-    google:
-      x: 0
-      y: 0
-    co:
-      x: 0
-      y: 0
-
+- gpx_index: 200
+  google:
+    x: 105
+    "y": 144
+  co:
+    x: 0
+    "y": 0
+- gpx_index: 900
+  google:
+    x: 142
+    "y": 13
+  co:
+    x: 0
+    "y": 0
+- gpx_index: 1106
+  google:
+    x: 228
+    "y": 120
+  co:
+    x: 0
+    "y": 0
