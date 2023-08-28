@@ -26,6 +26,7 @@ type the_widgets = { nb_points : int;
 see_gpx:GButton.toggle_button ;
 gpx_indexes : GEdit.entry list;
 see_google:GButton.toggle_button ;
+google_coords : GEdit.entry list list ;
 see_co:GButton.toggle_button ;
 }
 
@@ -40,7 +41,10 @@ let project_of_widgets ~the_widgets =
           {
             Gpx_plot.Model.gpx_index =
               int_of_string (List.nth the_widgets.gpx_indexes i)#text;
-            google = { Gpx_plot.Model.x = 0.0; y = 0.0 };
+            google = { Gpx_plot.Model.x =
+            float_of_string (List.nth (List.nth the_widgets.google_coords 0) i)# text ;
+            y=float_of_string (List.nth (List.nth the_widgets.google_coords 1) i)# text ;
+            } ;
             co = { Gpx_plot.Model.x = 0.0; y = 0.0 };
           })
         range
@@ -87,6 +91,8 @@ let widgets_of_project project w =
     let range = List.init n_points_to_try (fun x -> x) in
     let () = Log.info "range length : %d" (List.length range) in
     (*    let () = List.iter (fun i -> Log.info "in range : %d" i) range in *)
+
+    (* gpx *)
     let () =
       List.iter
         (fun i ->
@@ -104,6 +110,31 @@ let widgets_of_project project w =
           ())
         range
     in
+
+    (* google *)
+    let () =
+      List.iter
+        (fun i ->
+          let value =
+            if i < List.length project.Gpx_plot.Model.common_points then
+              let common_point =
+                List.nth project.Gpx_plot.Model.common_points i
+              in
+              common_point.Gpx_plot.Model.google
+            else { Gpx_plot.Model.x=0.0 ; y=0.0 }
+          in
+          let () =
+            (List.nth (List.nth w.google_coords 0) i)#set_text (Printf.sprintf "%f" value.Gpx_plot.Model.x)
+          in
+          let () =
+            (List.nth (List.nth w.google_coords 1) i)#set_text (Printf.sprintf "%f" value.Gpx_plot.Model.y)
+          in
+          ())
+        range
+    in
+
+
+
     let () = w.see_gpx#set_active project.Gpx_plot.Model.see_gpx in
     let () = w.see_google#set_active project.Gpx_plot.Model.see_google in
     let () = w.see_co#set_active project.Gpx_plot.Model.see_co in
@@ -193,7 +224,7 @@ let main () =
     let current_row = current_row + 1 in
 
     (* google maps points *)
-    let (_ : GEdit.entry list list) =
+    let (entries_google : GEdit.entry list list) =
       List.map
         (fun (row, t) ->
           let label =
@@ -252,7 +283,8 @@ let main () =
     let button = GButton.button ~label:"Go !" () in
     let _ = table#attach ~left:0 ~top:0 button#coerce in
 
-    let the_widgets = { nb_points = 3; see_gpx = cb_gpx ; see_google=cb_google;see_co=cb_co ;gpx_indexes = entries_gpx ;  } in
+    let the_widgets = { nb_points = 3; see_gpx = cb_gpx ; see_google=cb_google;see_co=cb_co ;gpx_indexes = entries_gpx ;
+     google_coords=entries_google ; } in
 
     let _ = button#connect#clicked ~callback:(go_cb workdir the_widgets) in
 
