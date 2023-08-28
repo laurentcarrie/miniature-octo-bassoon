@@ -9,18 +9,18 @@ type common_point = {
   co : xy_point;
 }
 
-val  gpx_file :string
-val google_png_file :string
+val gpx_file : string
+val google_png_file : string
 val co_png_file : string
 
 type project = {
-(*  pdf : string; *)
-(*  gpx_file : string; *)
-(*  google_png_file : string; *)
-(*  co_png_file : string; *)
-see_gpx:bool ;
-see_google:bool ;
-see_co:bool ;
+  (*  pdf : string; *)
+  (*  gpx_file : string; *)
+  (*  google_png_file : string; *)
+  (*  co_png_file : string; *)
+  see_gpx : bool;
+  see_google : bool;
+  see_co : bool;
   common_points : common_point list;
 }
 

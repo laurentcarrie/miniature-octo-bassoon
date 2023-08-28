@@ -2,8 +2,4 @@
  (alias runtest)
  (action
   (run ./run.sh))
- (deps
-  co.pdf
-  google.png
-  input.gpx
-  conf.yml))
+ (deps co.pdf google.png input.gpx conf.yml))

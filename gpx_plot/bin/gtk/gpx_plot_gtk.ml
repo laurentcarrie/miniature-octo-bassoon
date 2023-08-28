@@ -10,8 +10,6 @@ let open_yml_file () =
   let () = Log.info "ouch %s" "" in
   ()
 
-
-
 let gpx_entry i x () =
   let () = Log.info "gpx entry %d %s" i x#text in
   ()
@@ -24,7 +22,12 @@ let comap_entry i xy x () =
   let () = Log.info "gpx entry %d %s %s" i xy x#text in
   ()
 
-type the_widgets = { nb_points : int; gpx_indexes : GEdit.entry list }
+type the_widgets = { nb_points : int;
+see_gpx:GButton.toggle_button ;
+gpx_indexes : GEdit.entry list;
+see_google:GButton.toggle_button ;
+see_co:GButton.toggle_button ;
+}
 
 let project_of_widgets ~the_widgets =
   try
@@ -45,14 +48,14 @@ let project_of_widgets ~the_widgets =
 
     let p =
       {
-(*        Gpx_plot.Model.pdf = "out.pdf"; *)
-(*        gpx_file = "input.gpx"; *)
-(*        google_png_file = "google.png"; *)
-(*        co_png_file = "co.png"; *)
+        (*        Gpx_plot.Model.pdf = "out.pdf"; *)
+        (*        gpx_file = "input.gpx"; *)
+        (*        google_png_file = "google.png"; *)
+        (*        co_png_file = "co.png"; *)
         Gpx_plot.Model.common_points;
-        see_gpx=true;
-        see_google=true;
-        see_co=true ;
+        see_gpx = the_widgets.see_gpx#active ;
+        see_google = the_widgets.see_google#active;
+        see_co = the_widgets.see_co#active;
       }
     in
     p
@@ -69,13 +72,12 @@ let go_cb workdir the_widgets () =
 
 let save_yml_file workdir the_widgets () =
   (*    let _ = prerr_endline "Ouch!" in *)
-  let project_filename = Printf.sprintf "%s/conf.yml" workdir in
+  let project_filename = Printf.sprintf "%s/conf2.yml" workdir in
   let () = Log.info "save %s" project_filename in
   let project = project_of_widgets ~the_widgets in
   let data = Gpx_plot.Model.serialize project in
   let () = Core.Out_channel.write_all project_filename ~data in
   ()
-
 
 let widgets_of_project project w =
   try
@@ -102,6 +104,9 @@ let widgets_of_project project w =
           ())
         range
     in
+    let () = w.see_gpx#set_active project.Gpx_plot.Model.see_gpx in
+    let () = w.see_google#set_active project.Gpx_plot.Model.see_google in
+    let () = w.see_co#set_active project.Gpx_plot.Model.see_co in
     ()
   with e ->
     let msg = Printexc.to_string e and stack = Printexc.get_backtrace () in
@@ -133,7 +138,6 @@ let main () =
     let factory = new GMenu.factory menubar in
     let accel_group = factory#accel_group in
     let file_menu = factory#add_submenu "File" in
-
 
     (* Button *)
     (*  let button = GButton.button ~label:"Push me!" ~packing:vbox#add () in *)
@@ -185,7 +189,6 @@ let main () =
 
     (*  let _ = entries in *)
     (*  let _ : GEdit.entry * GEdit.entry * GEdit.entry = (List.nth entries 0 , List.nth entries 1 , List.nth entries 2) in *)
-    let the_widgets = { nb_points = 3; gpx_indexes = entries } in
 
     let current_row = current_row + 1 in
 
@@ -212,6 +215,8 @@ let main () =
           entries)
         [ (current_row, "X"); (current_row + 1, "Y") ]
     in
+    let cb_google = GButton.check_button ~label:"see" () in
+    let _ = table#attach ~left:1 ~top:current_row cb_google#coerce in
 
     let current_row = current_row + 2 in
 
@@ -241,18 +246,26 @@ let main () =
       in
       ()
     in
+    let cb_co = GButton.check_button ~label:"see" () in
+    let _ = table#attach ~left:1 ~top:current_row cb_co#coerce in
 
     let button = GButton.button ~label:"Go !" () in
     let _ = table#attach ~left:0 ~top:0 button#coerce in
+
+    let the_widgets = { nb_points = 3; see_gpx = cb_gpx ; see_google=cb_google;see_co=cb_co ;gpx_indexes = entries } in
+
     let _ = button#connect#clicked ~callback:(go_cb workdir the_widgets) in
 
-    let () = widgets_of_project project the_widgets in
 
+    let () = widgets_of_project project the_widgets in
 
     (* File menu *)
     let factory = new GMenu.factory file_menu ~accel_group in
     let _ = factory#add_item "Open" ~key:_O ~callback:open_yml_file in
-    let _ = factory#add_item "Save" ~key:_S ~callback:(save_yml_file workdir the_widgets) in
+    let _ =
+      factory#add_item "Save" ~key:_S
+        ~callback:(save_yml_file workdir the_widgets)
+    in
     let _ = factory#add_item "Quit" ~key:_Q ~callback:Main.quit in
 
     (* Display the windows and enter Gtk+ main loop *)
