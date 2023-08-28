@@ -16,9 +16,10 @@ let string_0 =
         input waypoints.mp ;
         input infos.mp
 
-        color gpx_color,google_color ;
+        color gpx_color,google_color,co_color ;
         gpx_color = (0,1,0) ;
         google_color = (0,1,1) ;
+        co_color = (1,0,1) ;
 
         beginfig(0);
 
@@ -114,6 +115,15 @@ let string_0 =
 
         if see_co :
             draw co_image ;
+            i:=0 ;
+            forever :
+                exitif unknown original_co_common[i] ;
+                pair p ;
+                p = original_co_common[i] ;
+                draw fullcircle scaled 10 shifted p withcolor co_color ;
+                dotlabel.ulft(decimal(i+1),p) withcolor co_color ;
+                i:=i+1 ;
+            endfor ;
         fi ;
 
 

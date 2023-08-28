@@ -119,6 +119,19 @@ let write_mp_infos ~workdir ~project =
       0 project.Model.common_points
   in
 
+  let () = fprintf fout "%s\n" "\npair original_co_common[] ;\n" in
+  let _ =
+    List.fold_left
+      (fun counter cp ->
+        let () =
+          fprintf fout "original_co_common%d = (%f,%f) ; \n" counter
+            cp.Model.co.x cp.Model.co.y
+        in
+        counter + 1)
+      0 project.Model.common_points
+  in
+
+
   (*          pair pp[] ; *)
   (*        color pcolor ; *)
   (*        pcolor = (0,1,0) ; *)
