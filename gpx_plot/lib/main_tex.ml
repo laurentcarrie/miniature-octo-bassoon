@@ -31,25 +31,29 @@ let string_0 =
         dx=0;
         dy=0 ;
         ratio=1 ;
-        draw background_image ;
+        if see_google :
+            draw google_image ;
+        fi ;
 
-        path bounding_box_background_image ;
-        bounding_box_background_image := bbox background_image ;
-        show bounding_box_background_image ;
-        pair center_bounding_box_background_image ;
+        path bounding_box_google_image ;
+        bounding_box_google_image := bbox google_image ;
+        show bounding_box_google_image ;
+        pair center_bounding_box_google_image ;
 
-        center_bounding_box_background_image = whatever [
-            point 0 of bounding_box_background_image,
-            point 2 of bounding_box_background_image
+        center_bounding_box_google_image = whatever [
+            point 0 of bounding_box_google_image,
+            point 2 of bounding_box_google_image
         ]         ;
-        center_bounding_box_background_image = whatever [
-            point 1 of bounding_box_background_image,
-            point 3 of bounding_box_background_image
+        center_bounding_box_google_image = whatever [
+            point 1 of bounding_box_google_image,
+            point 3 of bounding_box_google_image
         ]         ;
 
-        draw  bounding_box_background_image  withcolor red ;
+        if see_google:
+            draw  bounding_box_google_image  withcolor red ;
+        fi;
 
-        %fill fullcircle scaled 10 shifted center_bounding_box_background_image withcolor (1,0,0) ;
+        %fill fullcircle scaled 10 shifted center_bounding_box_google_image withcolor (1,0,0) ;
 
         numeric gpx_ratio ;
         gpx_ratio := 1000 ;
@@ -73,11 +77,13 @@ let string_0 =
         ]         ;
 
         pickup pencircle scaled 1;
-        %gpx := gpx shifted (center_bounding_box_background_image-center_bounding_box_background_image)  ;
+        %gpx := gpx shifted (center_bounding_box_google_image-center_bounding_box_google_image)  ;
         transform t_gpx ;
-        t_gpx := identity scaled gpx_ratio shifted (center_bounding_box_background_image-center_bounding_box_background_image) ;
+        t_gpx := identity scaled gpx_ratio shifted (center_bounding_box_google_image-center_bounding_box_google_image) ;
         gpx := original_gpx transformed t_gpx ;
-        draw gpx withcolor gpx_color ;
+        if see_gpx:
+            draw gpx withcolor gpx_color ;
+        fi;
 
 
         % gpx_common

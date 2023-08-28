@@ -13,7 +13,7 @@ rm -f main.pdf
 
 $bindir/cli/gpx_plot_cli.exe $here
 
-for f in gpx.mp waypoints.mp main.tex ; do
+for f in gpx.mp waypoints.mp infos.mp main.tex ; do
   test -f $here/$f || (echo $f is missing && false)
 done
 #lualatex main.tex
