@@ -62,8 +62,17 @@ let main () =
 
 let max_length=4 in
 
+    let () = List.map( fun i ->
+    let label = GMisc.label ~text:(Printf.sprintf "Point %d") () in
+    let _ = table#attach ~left:i ~top:0 (label#coerce) in
+    ()) [ 1;2;3] in
+
+    let label = GMisc.label ~text:"Point 2" () in
+  let _ = table#attach ~left:1 ~top:0 (label#coerce) in
+
+
  (* gpx file *)
-  let label = GMisc.label ~text:"gpx file"  () in
+  let label = GMisc.label ~text:"gpx point "  () in
   let _ = table#attach ~left:0 ~top:0 (label#coerce) in
   let entry_gpx_file =
     GEdit.entry ~text:"???" ~max_length ()
@@ -86,45 +95,6 @@ let max_length=4 in
   (* Connect the cancel_button to destroy the widget *)
   let _ = fs_google_maps_file#cancel_button#connect#clicked ~callback:fs_google_maps_file#destroy in
 
-  let _ = fs_google_maps_file#show () in
-
-(*  let entry_google_maps_file = *)
-(*    GEdit.entry ~text:"???" ~max_length  () *)
-(*  in *)
-(*  let _ = table#attach ~left:1 ~top:1 (fs_google_maps_file#coerce) in *)
-(*  let _ = *)
-(*    entry_google_maps_file#connect#activate *)
-(*      ~callback:(enter_entry_google_maps_file entry_google_maps_file) *)
-(*  in *)
-
-    (* google maps file *)
-  let label = GMisc.label ~text:"orienteering map\nimage file"  () in
-  let _ = table#attach ~left:0 ~top:2 (label#coerce) in
-  let entry_orienteering_map_file =
-    GEdit.entry ~text:"???" ~max_length  ()
-  in
-  let _ = table#attach ~left:1 ~top:2 (entry_orienteering_map_file#coerce) in
-  let _ =
-    entry_orienteering_map_file#connect#activate
-      ~callback:(enter_entry_orienteering_map_file entry_orienteering_map_file)
-  in
-
-    (* output file *)
-  let label = GMisc.label ~text:"pdf output"  () in
-  let _ = table#attach ~left:0 ~top:4 (label#coerce) in
-  let entry_pdf_output_file =
-    GEdit.entry ~text:"???" ~max_length  ()
-  in
-  let _ = table#attach ~left:1 ~top:4 (entry_pdf_output_file#coerce) in
-  let _ =
-    entry_pdf_output_file#connect#activate
-      ~callback:(enter_entry_pdf_output_file entry_pdf_output_file)
-  in
-
-
-  (*  let tmp_pos = entry#text_length in *)
-  (*  let _ = entry#insert_text " world" tmp_pos in *)
-  (*  let _ = entry_gpx_file#select_region ~start:0 ~stop:entry#text_length in *)
 
   (* Display the windows and enter Gtk+ main loop *)
   window#add_accel_group accel_group;
