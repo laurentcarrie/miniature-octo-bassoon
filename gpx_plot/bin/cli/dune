@@ -1,6 +1,6 @@
 (executable
- (public_name gpx_plot)
- (name gpx_plot)
+ (public_name gpx_plot_cli)
+ (name gpx_plot_cli)
  (libraries gpx_plot core)
  ; (preprocess
  ;  (pps ppx_deriving_yaml))
