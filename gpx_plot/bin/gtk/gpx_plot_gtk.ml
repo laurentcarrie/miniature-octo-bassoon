@@ -164,7 +164,7 @@ let main () =
     let current_row = current_row + 2 in
 
     (* gpx points *)
-    let entries : GEdit.entry list =
+    let entries_gpx : GEdit.entry list =
       let () =
         let label = GMisc.label ~text:"GPX point index" () in
         let _ = table#attach ~left:0 ~top:current_row label#coerce in
@@ -252,7 +252,7 @@ let main () =
     let button = GButton.button ~label:"Go !" () in
     let _ = table#attach ~left:0 ~top:0 button#coerce in
 
-    let the_widgets = { nb_points = 3; see_gpx = cb_gpx ; see_google=cb_google;see_co=cb_co ;gpx_indexes = entries } in
+    let the_widgets = { nb_points = 3; see_gpx = cb_gpx ; see_google=cb_google;see_co=cb_co ;gpx_indexes = entries_gpx ;  } in
 
     let _ = button#connect#clicked ~callback:(go_cb workdir the_widgets) in
 
