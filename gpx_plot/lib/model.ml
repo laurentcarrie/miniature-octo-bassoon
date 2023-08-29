@@ -14,7 +14,7 @@ type common_point = {
 }
 [@@deriving yaml]
 
-type view_type = Gpx_Only | Google_Only | Gpx_Google | Gpx_CO
+type view_type = Gpx_Only | Google_Only | Gpx_Google | Gpx_CO | CO
 
 type project = {
   (*  pdf : string; *)
@@ -25,7 +25,8 @@ type project = {
           | Gpx_Only -> `String "Gpx_Only"
           | Google_Only -> `String "Google_Only"
           | Gpx_Google -> `String "Gpx_Google"
-          | Gpx_CO -> `String "Gpx_CO"]
+          | Gpx_CO -> `String "Gpx_CO"
+          | CO -> `String "CO"]
       [@of_yaml
         fun i ->
           match i with
@@ -33,6 +34,7 @@ type project = {
           | `String "Google_Only" -> Ok Google_Only
           | `String "Gpx_Google" -> Ok Gpx_Google
           | `String "Gpx_CO" -> Ok Gpx_CO
+          | `String "CO" -> Ok CO
           | _ -> Error (`Msg "bad yaml")]
   common_points : common_point list;
 }

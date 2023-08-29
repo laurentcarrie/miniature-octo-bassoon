@@ -88,7 +88,8 @@ let write_mp_infos ~workdir ~project =
       | Model.Gpx_Only -> "gpx_only"
       | Model.Google_Only -> "google_only"
       | Model.Gpx_Google -> "gpx_google"
-      | Model.Gpx_CO -> "gpx_co")
+      | Model.Gpx_CO -> "gpx_co"
+      | Model.CO -> "co")
   in
 
   (* points of the original gpx file we want to use to reconcile the tracks *)

@@ -13,7 +13,7 @@ val gpx_file : string
 val google_png_file : string
 val co_png_file : string
 
-type view_type = Gpx_Only | Google_Only | Gpx_Google | Gpx_CO
+type view_type = Gpx_Only | Google_Only | Gpx_Google | Gpx_CO | CO
 
 type project = {
   (*  pdf : string; *)

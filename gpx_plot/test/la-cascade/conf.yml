@@ -1,0 +1,23 @@
+view_type: CO
+common_points:
+- gpx_index: 63
+  google:
+    x: 275
+    "y": 384
+  co:
+    x: 275
+    "y": 380
+- gpx_index: 155
+  google:
+    x: 83
+    "y": 13
+  co:
+    x: 83
+    "y": 13
+- gpx_index: 300
+  google:
+    x: 47
+    "y": 265
+  co:
+    x: 47
+    "y": 265

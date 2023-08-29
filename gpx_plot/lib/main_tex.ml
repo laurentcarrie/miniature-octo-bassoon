@@ -44,16 +44,21 @@ let string_0 =
 
 
         transform tt ;
-        original_gpx_common0 transformed t_gpx transformed tt = original_google_common0 ;
-        original_gpx_common1 transformed t_gpx transformed tt = original_google_common1 ;
-        original_gpx_common2 transformed t_gpx transformed tt = original_google_common2 ;
+        if (choice="gpx_google") or (choice="gpx_co") or (choice="co"):
+            original_gpx_common0 transformed t_gpx transformed tt = original_google_common0 ;
+            original_gpx_common1 transformed t_gpx transformed tt = original_google_common1 ;
+            original_gpx_common2 transformed t_gpx transformed tt = original_google_common2 ;
+            show tt ;
+        fi;
 
 
         transform ttt ;
-        original_gpx_common0 transformed t_gpx transformed tt transformed ttt = original_co_common0 ;
-        original_gpx_common1 transformed t_gpx transformed tt transformed ttt = original_co_common1 ;
-        original_gpx_common2 transformed t_gpx transformed tt transformed ttt = original_co_common2 ;
-
+        if (choice="gpx_co") or (choice="co"):
+            original_gpx_common0 transformed t_gpx transformed tt transformed ttt = original_co_common0 ;
+            original_gpx_common1 transformed t_gpx transformed tt transformed ttt = original_co_common1 ;
+            original_gpx_common2 transformed t_gpx transformed tt transformed ttt = original_co_common2 ;
+            show ttt ;
+        fi;
 
         beginfig(0);
 
@@ -92,7 +97,7 @@ let string_0 =
             point 3 of bounding_box_gpx
         ]         ;
 
-        if choice="gpx_co" :
+        if (choice="gpx_co") or (choice="co") :
             draw co_image ;
         fi;
 
@@ -151,16 +156,17 @@ let string_0 =
 
 
         path gpxa ;
-        gpxa = gpx transformed tt ;
 
-        if choice="gpx_google":
+        if (choice="gpx_google"):
+            gpxa = gpx transformed tt ;
             draw gpxa withcolor blue ;
         fi;
 
 
         path gpxb ;
-        gpxb := gpxa transformed ttt ;
-        if choice="gpx_co" :
+        if (choice="gpx_co") or (choice="co") :
+            gpxa = gpx transformed tt ;
+            gpxb := gpxa transformed ttt ;
             draw gpxb withcolor co_color ;
         fi;
 

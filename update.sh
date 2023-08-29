@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set -e
-set -x 
+set -x
 
 here=$(dirname $(realpath $0))
 libdir=$here/gpx_plot
@@ -18,5 +18,3 @@ dune build --root $libdir  > $here/build.txt 2>&1
 dune build --root $libdir @doc
 dune test --root $libdir  > $here/test.txt 2>&1
 echo DONE
-
-

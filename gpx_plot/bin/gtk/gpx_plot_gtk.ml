@@ -28,6 +28,7 @@ type the_widgets = {
   b_gpx_only : GButton.radio_button;
   b_gpx_google : GButton.radio_button;
   b_gpx_co : GButton.radio_button;
+  b_co : GButton.radio_button;
   gpx_indexes : GEdit.entry list;
   google_coords : GEdit.entry list list;
   co_coords : GEdit.entry list list;
@@ -78,12 +79,14 @@ let project_of_widgets ~the_widgets =
              ( the_widgets.b_gpx_only#active,
                the_widgets.b_google_only#active,
                the_widgets.b_gpx_google#active,
-               the_widgets.b_gpx_co#active )
+               the_widgets.b_gpx_co#active,
+               the_widgets.b_co#active )
            with
-          | true, false, false, false -> Gpx_plot.Model.Gpx_Only
-          | false, true, false, false -> Gpx_plot.Model.Google_Only
-          | false, false, true, false -> Gpx_plot.Model.Gpx_Google
-          | false, false, false, true -> Gpx_plot.Model.Gpx_CO
+          | true, false, false, false, false -> Gpx_plot.Model.Gpx_Only
+          | false, true, false, false, false -> Gpx_plot.Model.Google_Only
+          | false, false, true, false, false -> Gpx_plot.Model.Gpx_Google
+          | false, false, false, true, false -> Gpx_plot.Model.Gpx_CO
+          | false, false, false, false, true -> Gpx_plot.Model.CO
           | _ -> failwith "internal error");
       }
     in
@@ -225,7 +228,7 @@ let main () =
     in
 
     (* radio button *)
-    let b_gpx_only, b_google_only, b_gpx_google, b_gpx_co =
+    let b_gpx_only, b_google_only, b_gpx_google, b_gpx_co, b_co =
       let box = GPack.hbox () in
       let b_gpx_only = GButton.radio_button ~label:"GPX" ~packing:box#add () in
       let b_google_only =
@@ -240,9 +243,12 @@ let main () =
         GButton.radio_button ~group:b_gpx_only#group ~label:"GPX / CO"
           ~active:true ~packing:box#add ()
       in
-      let _ = b_gpx_co in
+      let b_co =
+        GButton.radio_button ~group:b_gpx_only#group ~label:"CO" ~active:true
+          ~packing:box#add ()
+      in
       let _ = table#attach ~left:0 ~top:1 box#coerce in
-      (b_gpx_only, b_google_only, b_gpx_google, b_gpx_co)
+      (b_gpx_only, b_google_only, b_gpx_google, b_gpx_co, b_co)
     in
 
     let current_row = 0 in
@@ -346,6 +352,7 @@ let main () =
         b_google_only;
         b_gpx_google;
         b_gpx_co;
+        b_co;
         gpx_indexes = entries_gpx;
         google_coords = entries_google;
         co_coords = entries_co;
