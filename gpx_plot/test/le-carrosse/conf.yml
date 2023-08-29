@@ -1,6 +1,7 @@
 see_gpx: true
 see_google: false
 see_co: true
+view_type: Gpx_Google
 common_points:
 - gpx_index: 231
   google:
