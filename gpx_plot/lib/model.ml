@@ -19,6 +19,7 @@ type project = {
   see_gpx : bool;
   see_google : bool;
   see_co : bool;
+
   common_points : common_point list;
 }
 [@@deriving yaml]

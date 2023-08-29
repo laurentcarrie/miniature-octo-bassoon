@@ -1,25 +1,25 @@
 see_gpx: true
-see_google: true
+see_google: false
 see_co: true
 common_points:
-- gpx_index: 200
+- gpx_index: 231
   google:
-    x: 105
-    "y": 144
+    x: 68
+    "y": 149
   co:
-    x: 52
-    "y": 218
+    x: 53
+    "y": 216
 - gpx_index: 900
   google:
-    x: 142
+    x: 143
     "y": 13
   co:
-    x: 0
-    "y": 30
+    x: 157
+    "y": 33
 - gpx_index: 1106
   google:
     x: 228
     "y": 120
   co:
-    x: 20
-    "y": 0
+    x: 246
+    "y": 165

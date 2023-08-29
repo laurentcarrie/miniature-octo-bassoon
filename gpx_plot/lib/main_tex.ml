@@ -18,8 +18,42 @@ let string_0 =
 
         color gpx_color,google_color,co_color ;
         gpx_color = (0,1,0) ;
-        google_color = (0,1,1) ;
+        google_color = (1,0,0) ;
         co_color = (1,0,1) ;
+        numeric gpx_ratio ;
+        gpx_ratio := 1000 ;
+
+
+        path bounding_box_google_image ;
+        bounding_box_google_image := bbox google_image ;
+        show bounding_box_google_image ;
+        pair center_bounding_box_google_image ;
+
+        center_bounding_box_google_image = whatever [
+            point 0 of bounding_box_google_image,
+            point 2 of bounding_box_google_image
+        ]         ;
+        center_bounding_box_google_image = whatever [
+            point 1 of bounding_box_google_image,
+            point 3 of bounding_box_google_image
+        ]         ;
+
+
+        transform t_gpx ;
+        t_gpx := identity scaled gpx_ratio shifted (center_bounding_box_google_image-center_bounding_box_google_image) ;
+
+
+        transform tt ;
+        original_gpx_common0 transformed t_gpx transformed tt = original_google_common0 ;
+        original_gpx_common1 transformed t_gpx transformed tt = original_google_common1 ;
+        original_gpx_common2 transformed t_gpx transformed tt = original_google_common2 ;
+
+
+        transform ttt ;
+        original_gpx_common0 transformed t_gpx transformed tt transformed ttt = original_co_common0 ;
+        original_gpx_common1 transformed t_gpx transformed tt transformed ttt = original_co_common1 ;
+        original_gpx_common2 transformed t_gpx transformed tt transformed ttt = original_co_common2 ;
+
 
         beginfig(0);
 
@@ -36,28 +70,11 @@ let string_0 =
             draw google_image ;
         fi ;
 
-        path bounding_box_google_image ;
-        bounding_box_google_image := bbox google_image ;
-        show bounding_box_google_image ;
-        pair center_bounding_box_google_image ;
-
-        center_bounding_box_google_image = whatever [
-            point 0 of bounding_box_google_image,
-            point 2 of bounding_box_google_image
-        ]         ;
-        center_bounding_box_google_image = whatever [
-            point 1 of bounding_box_google_image,
-            point 3 of bounding_box_google_image
-        ]         ;
 
         if see_google:
             draw  bounding_box_google_image  withcolor red ;
         fi;
 
-        %fill fullcircle scaled 10 shifted center_bounding_box_google_image withcolor (1,0,0) ;
-
-        numeric gpx_ratio ;
-        gpx_ratio := 1000 ;
         path gpx ;
 
         gpx = original_gpx scaled gpx_ratio ;
@@ -76,13 +93,26 @@ let string_0 =
         ]         ;
 
         pickup pencircle scaled 1;
-        %gpx := gpx shifted (center_bounding_box_google_image-center_bounding_box_google_image)  ;
-        transform t_gpx ;
-        t_gpx := identity scaled gpx_ratio shifted (center_bounding_box_google_image-center_bounding_box_google_image) ;
         gpx := original_gpx transformed t_gpx ;
         if see_gpx:
             draw gpx withcolor gpx_color ;
         fi;
+
+
+
+
+        if see_co :
+            draw co_image ;
+        fi;
+        i:=0 ;
+            forever :
+                exitif unknown original_co_common[i] ;
+                pair p ;
+                p = original_co_common[i] ;
+                draw fullcircle scaled 10 shifted p withcolor co_color ;
+                dotlabel.ulft(decimal(i+1),p) withcolor co_color ;
+                i:=i+1 ;
+            endfor ;
 
 
         % gpx_common
@@ -113,90 +143,18 @@ let string_0 =
         endfor ;
 
 
-        if see_co :
-            draw co_image ;
-            i:=0 ;
-            forever :
-                exitif unknown original_co_common[i] ;
-                pair p ;
-                p = original_co_common[i] ;
-                draw fullcircle scaled 10 shifted p withcolor co_color ;
-                dotlabel.ulft(decimal(i+1),p) withcolor co_color ;
-                i:=i+1 ;
-            endfor ;
-        fi ;
+
+        path gpxa ;
+        gpxa = gpx transformed tt ;
+        draw gpxa withcolor blue ;
 
 
-        transform tt ;
-        original_gpx_common0 transformed t_gpx transformed tt= original_google_common0 ;
-        original_gpx_common1 transformed t_gpx transformed tt= original_google_common1 ;
-        original_gpx_common2 transformed t_gpx transformed tt= original_google_common2 ;
-
-        draw gpx transformed tt withcolor blue ;
+        path gpxb ;
+        gpxb := gpxa transformed ttt ;
+        draw gpxb withcolor (1,1,0) ;
 
 
 
-%        path p ;
-%        transform t ;
-%        numeric scale,dx,dy;
-%        scale=1200;
-%        dx=10.0cm;
-%        dy=5.3cm ;
-%        theta=-5 ;
-%        t := identity scaled scale rotated theta shifted (dx,dy);
-%        p := get_route(t) ;
-%
-%
-%
-%        pair qq[] ;
-%        color qcolor ;
-%        qcolor=(1,0,0) ;
-%
-%        qq0 = (134,166) ;
-%        draw fullcircle scaled 5 shifted qq0 withcolor qcolor ;
-%        dotlabel.ulft("0",qq0) withcolor qcolor ;
-%
-%        qq1 = (67,150) ;
-%        draw fullcircle scaled 5 shifted qq1 withcolor qcolor ;
-%        dotlabel.ulft("1",qq1) withcolor qcolor ;
-%
-%        qq2 = (143,13) ;
-%        draw fullcircle scaled 5 shifted qq2 withcolor qcolor ;
-%        dotlabel.ulft("2",qq2) withcolor qcolor ;
-%
-%        qq3 = (228,120) ;
-%        draw fullcircle scaled 5 shifted qq3 withcolor qcolor ;
-%        dotlabel.ulft("3",qq3) withcolor qcolor ;
-%
-%
-%        pickup pencircle scaled 1;
-%%        draw p withcolor pcolor ;
-%
-%        transform tt[] ;
-%%        qq0 = pp0 transformed tt0 ;
-%        qq1 = pp1 transformed tt0 ;
-%        qq2 = pp2 transformed tt0 ;
-%        qq3 = pp3 transformed tt0 ;
-%
-%        %qq0 = pp0 transformed tt0 ;
-%%        qq1 = pp1 transformed tt1 ;
-%%        qq2 = pp2 transformed tt1 ;
-%%        qq3 = pp3 transformed tt1 ;
-%
-%        transform chosen_tt ;
-%        chosen_tt=tt0 ;
-%
-%        path pp ;
-%        pp = p transformed chosen_tt ;
-%
-%        pickup pencircle scaled .1;
-%        draw pp withcolor (0,1,0) ;
-%
-%%        draw p transformed tt0 withcolor (0,0,1) ;
-%        %draw p transformed tt1 withcolor (0,0,1) ;
-%
-%%        pp = .5[p transformed tt0 ,p  transformed tt1 ] ;
-%%        draw pp withcolor (1,0,0) ;
 %
 %
 %        pair wpts[] ;

@@ -343,6 +343,10 @@ let main () =
         ~callback:(save_yml_file workdir the_widgets)
     in
     let _ = factory#add_item "Quit" ~key:_Q ~callback:Main.quit in
+    let _ =
+      factory#add_item "Build" ~key:_B
+        ~callback:(go_cb workdir the_widgets)
+    in
 
     (* Display the windows and enter Gtk+ main loop *)
     window#add_accel_group accel_group;
