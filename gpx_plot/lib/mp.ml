@@ -82,15 +82,21 @@ let write_mp_infos ~workdir ~project =
        google_image = TEX(\"\\includegraphics[width=300pt]{%s}\");\n\
        co_image = TEX(\"\\includegraphics[width=300pt]{%s}\");\n\
        boolean see_google, see_gpx, see_co;\n\
+       string choice ;\n\
        see_gpx=%b ; \n\
        see_google=%b ; \n\
        see_co=%b ; \n\
+       choice=\"%s\" ;
        "
       Model.google_png_file
       Model.co_png_file
       project.Model.see_gpx
       project.Model.see_google
       project.Model.see_co
+      (match project.Model.view_type with
+      | Model.Gpx_Google -> "gpx_google"
+      | Model.Gpx_CO -> "gpx_co"
+      )
   in
 
   (* points of the original gpx file we want to use to reconcile the tracks *)

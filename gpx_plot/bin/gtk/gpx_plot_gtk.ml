@@ -24,6 +24,8 @@ let comap_entry i xy x () =
 
 type the_widgets = {
   nb_points : int;
+  b_gpx_google : GButton.radio_button ;
+  b_gpx_co : GButton.radio_button ;
   see_gpx : GButton.toggle_button;
   gpx_indexes : GEdit.entry list;
   see_google : GButton.toggle_button;
@@ -75,7 +77,10 @@ let project_of_widgets ~the_widgets =
         see_gpx = the_widgets.see_gpx#active;
         see_google = the_widgets.see_google#active;
         see_co = the_widgets.see_co#active;
-        view_type = Gpx_plot.Model.Gpx_Google ;
+        view_type = match the_widgets.b_gpx_google#active,the_widgets.b_gpx_co#active with
+        | true,false -> Gpx_plot.Model.Gpx_Google
+        | false,true -> Gpx_plot.Model.Gpx_CO
+        | _ -> failwith "internal error"
       }
     in
     p
@@ -108,6 +113,7 @@ let widgets_of_project project w =
     let () = Log.info "range length : %d" (List.length range) in
 
     (*    let () = List.iter (fun i -> Log.info "in range : %d" i) range in *)
+
 
     (* gpx *)
     let () =
@@ -219,6 +225,21 @@ let main () =
         ~border_width:1 ~packing:vbox#add ()
     in
 
+    (* radio button *)
+    let b_gpx_google,b_gpx_co =
+        let box = GPack.hbox () in
+        let b_gpx_google = GButton.radio_button ~label:"GPX / Google" ~packing:box#add () in
+        let b_gpx_co = GButton.radio_button ~group:b_gpx_google#group ~label:"GPX / CO" ~active:true ~packing:box#add () in
+        let _ = b_gpx_co in
+        let _ = table#attach ~left:0 ~top:1 box#coerce in
+        b_gpx_google,b_gpx_co
+           in
+
+
+
+
+
+
     let current_row = 0 in
     let range = List.init n_points_to_try (fun x -> x) in
 
@@ -323,6 +344,8 @@ let main () =
     let the_widgets =
       {
         nb_points = 3;
+        b_gpx_google = b_gpx_google ;
+        b_gpx_co = b_gpx_co ;
         see_gpx = cb_gpx;
         see_google = cb_google;
         see_co = cb_co;
