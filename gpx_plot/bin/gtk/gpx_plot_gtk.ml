@@ -75,6 +75,7 @@ let project_of_widgets ~the_widgets =
         see_gpx = the_widgets.see_gpx#active;
         see_google = the_widgets.see_google#active;
         see_co = the_widgets.see_co#active;
+        view_type = Gpx_plot.Model.Gpx_Google ;
       }
     in
     p

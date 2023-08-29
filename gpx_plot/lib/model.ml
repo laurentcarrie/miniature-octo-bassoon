@@ -14,11 +14,17 @@ type common_point = {
 }
 [@@deriving yaml]
 
+type view_type = Gpx_Google | Gpx_CO
+
 type project = {
   (*  pdf : string; *)
   see_gpx : bool;
   see_google : bool;
   see_co : bool;
+  view_type : view_type
+  [@to_yaml fun i -> match i with | Gpx_Google -> `String "Gpx_Google" | Gpx_CO -> `String "Gpx_CO" ]
+  [@of_yaml fun i -> match i with | `String "Gpx_Google" -> Gpx_Google | `String "Gpx_CO" -> Gpx_CO | _ -> raise runtime_error "bad yaml" ]
+  ;
 
   common_points : common_point list;
 }
