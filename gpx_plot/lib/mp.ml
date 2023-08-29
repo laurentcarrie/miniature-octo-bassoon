@@ -81,22 +81,14 @@ let write_mp_infos ~workdir ~project =
       "picture google_image,co_image ; \n\
        google_image = TEX(\"\\includegraphics[width=300pt]{%s}\");\n\
        co_image = TEX(\"\\includegraphics[width=300pt]{%s}\");\n\
-       boolean see_google, see_gpx, see_co;\n\
        string choice ;\n\
-       see_gpx=%b ; \n\
-       see_google=%b ; \n\
-       see_co=%b ; \n\
-       choice=\"%s\" ;
-       "
-      Model.google_png_file
-      Model.co_png_file
-      project.Model.see_gpx
-      project.Model.see_google
-      project.Model.see_co
+       choice=\"%s\" ;\n\
+      \       " Model.google_png_file Model.co_png_file
       (match project.Model.view_type with
+      | Model.Gpx_Only -> "gpx_only"
+      | Model.Google_Only -> "google_only"
       | Model.Gpx_Google -> "gpx_google"
-      | Model.Gpx_CO -> "gpx_co"
-      )
+      | Model.Gpx_CO -> "gpx_co")
   in
 
   (* points of the original gpx file we want to use to reconcile the tracks *)
@@ -136,7 +128,6 @@ let write_mp_infos ~workdir ~project =
         counter + 1)
       0 project.Model.common_points
   in
-
 
   (*          pair pp[] ; *)
   (*        color pcolor ; *)

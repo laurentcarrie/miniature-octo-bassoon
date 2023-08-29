@@ -66,12 +66,12 @@ let string_0 =
         dx=0;
         dy=0 ;
         ratio=1 ;
-        if see_google :
+        if (choice="gpx_google") or (choice="google_only"):
             draw google_image ;
         fi ;
 
 
-        if see_google:
+        if choice="gpx_google":
             draw  bounding_box_google_image  withcolor red ;
         fi;
 
@@ -92,19 +92,23 @@ let string_0 =
             point 3 of bounding_box_gpx
         ]         ;
 
+        if choice="gpx_co" :
+            draw co_image ;
+        fi;
+
+
         pickup pencircle scaled 1;
         gpx := original_gpx transformed t_gpx ;
-        if see_gpx:
+        if (choice="gpx_google") or (choice="gpx_only") or (choice="gpx_co"):
             draw gpx withcolor gpx_color ;
         fi;
 
 
 
 
-        if see_co :
-            draw co_image ;
-        fi;
-        i:=0 ;
+
+        if choice="gpx_co":
+            i:=0 ;
             forever :
                 exitif unknown original_co_common[i] ;
                 pair p ;
@@ -113,12 +117,12 @@ let string_0 =
                 dotlabel.ulft(decimal(i+1),p) withcolor co_color ;
                 i:=i+1 ;
             endfor ;
-
+        fi;
 
         % gpx_common
         numeric i ;
         i:=0 ;
-        if see_gpx:
+        if (choice="gpx_google") or (choice="gpx_only") or (choice="gpx_co"):
             forever :
                 exitif unknown original_gpx_common[i] ;
                 show original_gpx_common[i] ;
@@ -131,27 +135,34 @@ let string_0 =
         fi;
 
         % google_common
-        numeric i ;
-        i:=0 ;
-        forever :
-            exitif unknown original_google_common[i] ;
-            pair p ;
-            p = original_google_common[i] ;
-            draw fullcircle scaled 10 shifted p withcolor google_color ;
-            dotlabel.ulft(decimal(i+1),p) withcolor google_color ;
-            i:=i+1 ;
-        endfor ;
+        if (choice="gpx_google") or (choice="google_only"):
+            numeric i ;
+            i:=0 ;
+            forever :
+                exitif unknown original_google_common[i] ;
+                pair p ;
+                p = original_google_common[i] ;
+                draw fullcircle scaled 10 shifted p withcolor google_color ;
+                dotlabel.ulft(decimal(i+1),p) withcolor google_color ;
+                i:=i+1 ;
+            endfor ;
+        fi;
 
 
 
         path gpxa ;
         gpxa = gpx transformed tt ;
-        draw gpxa withcolor blue ;
+
+        if choice="gpx_google":
+            draw gpxa withcolor blue ;
+        fi;
 
 
         path gpxb ;
         gpxb := gpxa transformed ttt ;
-        draw gpxb withcolor (1,1,0) ;
+        if choice="gpx_co" :
+            draw gpxb withcolor co_color ;
+        fi;
 
 
 

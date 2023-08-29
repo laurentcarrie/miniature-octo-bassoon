@@ -13,17 +13,14 @@ val gpx_file : string
 val google_png_file : string
 val co_png_file : string
 
-type view_type = Gpx_Google | Gpx_CO
+type view_type = Gpx_Only | Google_Only | Gpx_Google | Gpx_CO
 
 type project = {
   (*  pdf : string; *)
   (*  gpx_file : string; *)
   (*  google_png_file : string; *)
   (*  co_png_file : string; *)
-  see_gpx : bool;
-  see_google : bool;
-  see_co : bool;
-  view_type: view_type ;
+  view_type : view_type;
   common_points : common_point list;
 }
 

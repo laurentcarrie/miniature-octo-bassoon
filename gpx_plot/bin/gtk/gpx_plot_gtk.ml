@@ -24,13 +24,12 @@ let comap_entry i xy x () =
 
 type the_widgets = {
   nb_points : int;
-  b_gpx_google : GButton.radio_button ;
-  b_gpx_co : GButton.radio_button ;
-  see_gpx : GButton.toggle_button;
+  b_google_only : GButton.radio_button;
+  b_gpx_only : GButton.radio_button;
+  b_gpx_google : GButton.radio_button;
+  b_gpx_co : GButton.radio_button;
   gpx_indexes : GEdit.entry list;
-  see_google : GButton.toggle_button;
   google_coords : GEdit.entry list list;
-  see_co : GButton.toggle_button;
   co_coords : GEdit.entry list list;
 }
 
@@ -74,13 +73,18 @@ let project_of_widgets ~the_widgets =
         (*        google_png_file = "google.png"; *)
         (*        co_png_file = "co.png"; *)
         Gpx_plot.Model.common_points;
-        see_gpx = the_widgets.see_gpx#active;
-        see_google = the_widgets.see_google#active;
-        see_co = the_widgets.see_co#active;
-        view_type = match the_widgets.b_gpx_google#active,the_widgets.b_gpx_co#active with
-        | true,false -> Gpx_plot.Model.Gpx_Google
-        | false,true -> Gpx_plot.Model.Gpx_CO
-        | _ -> failwith "internal error"
+        view_type =
+          (match
+             ( the_widgets.b_gpx_only#active,
+               the_widgets.b_google_only#active,
+               the_widgets.b_gpx_google#active,
+               the_widgets.b_gpx_co#active )
+           with
+          | true, false, false, false -> Gpx_plot.Model.Gpx_Only
+          | false, true, false, false -> Gpx_plot.Model.Google_Only
+          | false, false, true, false -> Gpx_plot.Model.Gpx_Google
+          | false, false, false, true -> Gpx_plot.Model.Gpx_CO
+          | _ -> failwith "internal error");
       }
     in
     p
@@ -113,7 +117,6 @@ let widgets_of_project project w =
     let () = Log.info "range length : %d" (List.length range) in
 
     (*    let () = List.iter (fun i -> Log.info "in range : %d" i) range in *)
-
 
     (* gpx *)
     let () =
@@ -181,10 +184,6 @@ let widgets_of_project project w =
           ())
         range
     in
-
-    let () = w.see_gpx#set_active project.Gpx_plot.Model.see_gpx in
-    let () = w.see_google#set_active project.Gpx_plot.Model.see_google in
-    let () = w.see_co#set_active project.Gpx_plot.Model.see_co in
     ()
   with e ->
     let msg = Printexc.to_string e and stack = Printexc.get_backtrace () in
@@ -226,19 +225,25 @@ let main () =
     in
 
     (* radio button *)
-    let b_gpx_google,b_gpx_co =
-        let box = GPack.hbox () in
-        let b_gpx_google = GButton.radio_button ~label:"GPX / Google" ~packing:box#add () in
-        let b_gpx_co = GButton.radio_button ~group:b_gpx_google#group ~label:"GPX / CO" ~active:true ~packing:box#add () in
-        let _ = b_gpx_co in
-        let _ = table#attach ~left:0 ~top:1 box#coerce in
-        b_gpx_google,b_gpx_co
-           in
-
-
-
-
-
+    let b_gpx_only, b_google_only, b_gpx_google, b_gpx_co =
+      let box = GPack.hbox () in
+      let b_gpx_only = GButton.radio_button ~label:"GPX" ~packing:box#add () in
+      let b_google_only =
+        GButton.radio_button ~label:"Google" ~group:b_gpx_only#group
+          ~packing:box#add ()
+      in
+      let b_gpx_google =
+        GButton.radio_button ~label:"GPX / Google" ~group:b_gpx_only#group
+          ~packing:box#add ()
+      in
+      let b_gpx_co =
+        GButton.radio_button ~group:b_gpx_only#group ~label:"GPX / CO"
+          ~active:true ~packing:box#add ()
+      in
+      let _ = b_gpx_co in
+      let _ = table#attach ~left:0 ~top:1 box#coerce in
+      (b_gpx_only, b_google_only, b_gpx_google, b_gpx_co)
+    in
 
     let current_row = 0 in
     let range = List.init n_points_to_try (fun x -> x) in
@@ -277,8 +282,6 @@ let main () =
       in
       entries
     in
-    let cb_gpx = GButton.check_button ~label:"see" () in
-    let _ = table#attach ~left:1 ~top:current_row cb_gpx#coerce in
 
     (*  let _ = entries in *)
     (*  let _ : GEdit.entry * GEdit.entry * GEdit.entry = (List.nth entries 0 , List.nth entries 1 , List.nth entries 2) in *)
@@ -307,8 +310,6 @@ let main () =
           entries)
         [ (current_row, "X"); (current_row + 1, "Y") ]
     in
-    let cb_google = GButton.check_button ~label:"see google" () in
-    let _ = table#attach ~left:1 ~top:current_row cb_google#coerce in
 
     let current_row = current_row + 2 in
 
@@ -335,20 +336,16 @@ let main () =
         [ (current_row, "X"); (current_row + 1, "Y") ]
     in
 
-    let cb_co = GButton.check_button ~label:"see" () in
-    let _ = table#attach ~left:1 ~top:current_row cb_co#coerce in
-
     let button = GButton.button ~label:"Go !" () in
     let _ = table#attach ~left:0 ~top:0 button#coerce in
 
     let the_widgets =
       {
         nb_points = 3;
-        b_gpx_google = b_gpx_google ;
-        b_gpx_co = b_gpx_co ;
-        see_gpx = cb_gpx;
-        see_google = cb_google;
-        see_co = cb_co;
+        b_gpx_only;
+        b_google_only;
+        b_gpx_google;
+        b_gpx_co;
         gpx_indexes = entries_gpx;
         google_coords = entries_google;
         co_coords = entries_co;
@@ -368,8 +365,7 @@ let main () =
     in
     let _ = factory#add_item "Quit" ~key:_Q ~callback:Main.quit in
     let _ =
-      factory#add_item "Build" ~key:_B
-        ~callback:(go_cb workdir the_widgets)
+      factory#add_item "Build" ~key:_B ~callback:(go_cb workdir the_widgets)
     in
 
     (* Display the windows and enter Gtk+ main loop *)
